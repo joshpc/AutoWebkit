@@ -46,7 +46,10 @@ class AutomationScriptController: NSObject {
 		currentActionIndex = nextActionIndex
 		
 		delegate?.controller(self, willExecuteAction: action)
-		action.performAction(with: webView) { [weak self] in
+		action.performAction(with: webView) { [weak self] (error) in
+			if let error = error {
+				print("Error while performing action: \(error)")
+			}
 			guard let scriptController = self, let delegate = scriptController.delegate else { return }
 			delegate.controller(scriptController, didCompleteAction: action)
 		}

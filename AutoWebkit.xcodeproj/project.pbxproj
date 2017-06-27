@@ -21,6 +21,7 @@
 		F796215C1F010FBC007C4851 /* AutomationScript.swift in Sources */ = {isa = PBXBuildFile; fileRef = F796215B1F010FBC007C4851 /* AutomationScript.swift */; };
 		F796215E1F010FD3007C4851 /* ScriptAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = F796215D1F010FD3007C4851 /* ScriptAction.swift */; };
 		F79621601F0110DB007C4851 /* AutomationScriptController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F796215F1F0110DB007C4851 /* AutomationScriptController.swift */; };
+		F7BD923E1F025B30002A2809 /* onLoad.js in Resources */ = {isa = PBXBuildFile; fileRef = F7BD923D1F025B30002A2809 /* onLoad.js */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -67,6 +68,7 @@
 		F796215B1F010FBC007C4851 /* AutomationScript.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AutomationScript.swift; sourceTree = "<group>"; };
 		F796215D1F010FD3007C4851 /* ScriptAction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScriptAction.swift; sourceTree = "<group>"; };
 		F796215F1F0110DB007C4851 /* AutomationScriptController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AutomationScriptController.swift; sourceTree = "<group>"; };
+		F7BD923D1F025B30002A2809 /* onLoad.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = onLoad.js; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -147,6 +149,7 @@
 			children = (
 				F79621511F00F36D007C4851 /* Controllers */,
 				F79621521F00F377007C4851 /* Models */,
+				F7BD923C1F025B14002A2809 /* Scripts */,
 				F79621541F00F37E007C4851 /* Supporting Files */,
 				F79621531F00F377007C4851 /* Views */,
 				F79621221F00F300007C4851 /* AppDelegate.swift */,
@@ -207,6 +210,14 @@
 				F79621571F00F99D007C4851 /* Podfile */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		F7BD923C1F025B14002A2809 /* Scripts */ = {
+			isa = PBXGroup;
+			children = (
+				F7BD923D1F025B30002A2809 /* onLoad.js */,
+			);
+			path = Scripts;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -329,6 +340,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F79621581F00F99D007C4851 /* Podfile in Resources */,
+				F7BD923E1F025B30002A2809 /* onLoad.js in Resources */,
 				F796212D1F00F300007C4851 /* LaunchScreen.storyboard in Resources */,
 				F796212A1F00F300007C4851 /* Assets.xcassets in Resources */,
 			);

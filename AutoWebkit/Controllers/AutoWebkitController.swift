@@ -9,7 +9,7 @@
 import UIKit
 import WebKit
 
-class AutoWebkitController: UIViewController, WKNavigationDelegate, WKUIDelegate, AutomationScriptControllerDelegate {
+class AutoWebkitController: UIViewController, WKNavigationDelegate, WKUIDelegate, AutomationScriptControllerDelegate, WKScriptMessageHandler {
 	private var scriptController: AutomationScriptController?
 	
 	private var configuration: WKWebViewConfiguration!
@@ -17,17 +17,19 @@ class AutoWebkitController: UIViewController, WKNavigationDelegate, WKUIDelegate
 	private var navigations = Set<WKNavigation>()
 	
 	private var isScriptRunning = false
+	private var hasLoaded: Bool = false
 	private var isLoading: Bool {
 		return navigations.isEmpty == false
 	}
 	
 	override func loadView() {
 		configuration = WKWebViewConfiguration()
+		configuration.userContentController.add(self, name: "bridge")
 		webView = WKWebView(frame: .zero, configuration: configuration)
 		webView.uiDelegate = self
 		webView.navigationDelegate = self
 		view = webView
-		
+	
 		scriptController?.webView = webView
 	}
 	
@@ -64,7 +66,28 @@ class AutoWebkitController: UIViewController, WKNavigationDelegate, WKUIDelegate
 	func controller(_ controller: AutomationScriptController, didCompleteAction: ScriptAction) {
 		isScriptRunning = false
 		
-		processNextStepIfPossible()
+		if hasLoaded {
+			processNextStepIfPossible()
+		}
+	}
+	
+	private func attachOnLoadListener() {
+		if let path = Bundle.main.path(forResource: "onLoad", ofType: "js") {
+			do {
+				let javascript = try String(contentsOfFile: path, encoding: .utf8)
+				webView.evaluateJavaScript(javascript) { (result, error) in
+					if let error = error {
+						print("Failed to attach onLoad \(error)")
+					}
+					else {
+						print("Attached onLoad")
+					}
+				}
+			}
+			catch let error {
+				print("Failed to attach onLoad -- \(error)")
+			}
+		}
 	}
 	
 	// MARK: WKNavigationDelegate Methods
@@ -95,10 +118,12 @@ class AutoWebkitController: UIViewController, WKNavigationDelegate, WKUIDelegate
 		navigations.remove(navigation)
 	}
 	
+	public func webView(_ webView: WKWebView, didCommit navigation: WKNavigation) {
+		attachOnLoadListener()
+	}
+	
 	public func webView(_ webView: WKWebView, didFinish navigation: WKNavigation) {
 		navigations.remove(navigation)
-		
-		processNextStepIfPossible()
 	}
 	
 	public func webView(_ webView: WKWebView, didFail navigation: WKNavigation, withError error: Error) {
@@ -135,5 +160,12 @@ class AutoWebkitController: UIViewController, WKNavigationDelegate, WKUIDelegate
 	public func webView(_ webView: WKWebView, shouldPreviewElement elementInfo: WKPreviewElementInfo) -> Bool {
 		//Previewing is strticly disabled
 		return false
+	}
+	
+	// MARK: WKScriptMessageHandler
+	
+	func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
+		hasLoaded = true
+		processNextStepIfPossible()
 	}
 }
