@@ -12,5 +12,5 @@ import UIKit
 /// Encapsulates a list of actions that should be done
 ///
 struct AutomationScript {
-	let actions: [ScriptAction]
+	let actions: [Scriptable]
 }

@@ -59,11 +59,11 @@ class AutoWebkitController: UIViewController, WKNavigationDelegate, WKUIDelegate
 	
 	// MARK: AutomationScriptControllerDelegate Methods
 	
-	func controller(_ controller: AutomationScriptController, willExecuteAction: ScriptAction) {
+	func controller(_ controller: AutomationScriptController, willExecute: Scriptable) {
 		isScriptRunning = true
 	}
 	
-	func controller(_ controller: AutomationScriptController, didCompleteAction: ScriptAction) {
+	func controller(_ controller: AutomationScriptController, didComplete: Scriptable) {
 		isScriptRunning = false
 		
 		if hasLoaded {

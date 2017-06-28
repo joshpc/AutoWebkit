@@ -9,84 +9,64 @@
 import UIKit
 import WebKit
 
+typealias ScriptableCompletionHandler = ((Error?) -> Void)
+
 ///
 /// Encompasses a set of actions that the automation script should do
 ///
-protocol ScriptAction {
-	func performAction(with webView: WKWebView, completionHandler: @escaping ((Error?) -> Void))
+protocol Scriptable {
+	func performAction(with webView: WKWebView, completion: @escaping ScriptableCompletionHandler)
 }
 
-struct LoadAction: ScriptAction {
-	let url: URL
+enum ScriptAction: Scriptable {
+	case load(url: URL)
+	case setAttribute(name: String, value: String?, elementId: String)
+	case wait(duration: TimeInterval)
+	case submit(formId: String)
 	
-	func performAction(with webView: WKWebView, completionHandler: @escaping ((Error?) -> Void)) {
+	case printDebugMessage(message: String)
+	
+	func performAction(with webView: WKWebView, completion: @escaping ScriptableCompletionHandler) {
+		switch self {
+		case .load(let url):
+			loadUrl(url, with: webView, completion: completion)
+		case .wait(let duration):
+			waitFor(duration, completion: completion)
+		case .submit(let formId):
+			submitForm(formId, with: webView, completion: completion)
+		case .setAttribute(let name, let value, let elementId):
+			updateAttribute(name, value: value, on: elementId, with: webView, completion: completion)
+		case .printDebugMessage(let message):
+			printMessage(message, completion: completion)
+		}
+	}
+	
+	private func loadUrl(_ url: URL, with webView: WKWebView, completion: ScriptableCompletionHandler) {
 		webView.load(URLRequest(url: url))
-		completionHandler(nil)
+		completion(nil)
 	}
-}
-
-struct WaitAction: ScriptAction {
-	let waitDuration: TimeInterval
 	
-	func performAction(with webView: WKWebView, completionHandler: @escaping ((Error?) -> Void)) {
-		DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + waitDuration) {
-			completionHandler(nil)
+	private func waitFor(_ duration: TimeInterval, completion: @escaping ScriptableCompletionHandler) {
+		DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + duration) {
+			completion(nil)
 		}
 	}
-}
-
-struct PrintAction: ScriptAction {
-	let message: String
 	
-	func performAction(with webView: WKWebView, completionHandler: @escaping ((Error?) -> Void)) {
+	private func printMessage(_ message: String, completion: ScriptableCompletionHandler) {
 		print(message)
-		completionHandler(nil)
-	}
-}
-
-//TODO: Okay, now that we have a framework, how do we actually set the values? How do we communicate the results back
-struct SubmitFormAction: ScriptAction {
-	let formId: String?
-	let formName: String?
-	
-	init(formId: String) {
-		self.formId = formId
-		formName = nil
+		completion(nil)
 	}
 	
-	init (formName: String) {
-		self.formName = formName
-		formId = nil
-	}
-	
-	func performAction(with webView: WKWebView, completionHandler: @escaping ((Error?) -> Void)) {
-		var script: String? = nil
-		if let formId = formId {
-			script = JavascriptUtil.query(id: formId)
-		}
-		else if let formName = formName {
-			script = JavascriptUtil.query(name: formName, tagName: "form")
-		}
-			
-		if var script = script {
-			script += "element.submit();"
-			
-			webView.safelyEvaluateJavaScript(script) { (result, error) in
-				completionHandler(error)
-			}
-		}
-		else {
-			completionHandler(NSError(domain: "AutoWebkit", code: 0, userInfo: ["error" : "no formId or formName for SubmitFormAction"]))
+	private func submitForm(_ id: String, with webView: WKWebView, completion: @escaping ScriptableCompletionHandler) {
+		//TODO: Consolidate these methods if I can?
+		var script = JavascriptUtil.query(id: id)
+		script += "element.submit();"
+		webView.safelyEvaluateJavaScript(script) { (result, error) in
+			completion(error)
 		}
 	}
-}
-
-struct SetAttributeAction: ScriptAction {
-	let elementId: String
-	let name: String
-	let value: String?
 	
-	func performAction(with webView: WKWebView, completionHandler: @escaping ((Error?) -> Void)) {
+	private func updateAttribute(_ name: String, value: String?, on elementId: String, with webView: WKWebView, completion: @escaping ScriptableCompletionHandler) {
 		var script = JavascriptUtil.query(id: elementId)
 		if let value = value {
 			script += "element.setAttribute('\(name)', '\(value)');"
@@ -96,14 +76,8 @@ struct SetAttributeAction: ScriptAction {
 		}
 		
 		webView.safelyEvaluateJavaScript(script) { (result, error) in
-			completionHandler(error)
+			completion(error)
 		}
-	}
-}
-
-struct EvaluateAction: ScriptAction {
-	func performAction(with webView: WKWebView, completionHandler: @escaping ((Error?) -> Void)) {
-		
 	}
 }
 

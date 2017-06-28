@@ -10,8 +10,8 @@ import UIKit
 import WebKit
 
 protocol AutomationScriptControllerDelegate: NSObjectProtocol {
-	func controller(_ controller: AutomationScriptController, willExecuteAction: ScriptAction)
-	func controller(_ controller: AutomationScriptController, didCompleteAction: ScriptAction)
+	func controller(_ controller: AutomationScriptController, willExecute: Scriptable)
+	func controller(_ controller: AutomationScriptController, didComplete: Scriptable)
 }
 
 ///
@@ -45,13 +45,13 @@ class AutomationScriptController: NSObject {
 		let action = script.actions[nextActionIndex]
 		currentActionIndex = nextActionIndex
 		
-		delegate?.controller(self, willExecuteAction: action)
+		delegate?.controller(self, willExecute: action)
 		action.performAction(with: webView) { [weak self] (error) in
 			if let error = error {
 				print("Error while performing action: \(error)")
 			}
 			guard let scriptController = self, let delegate = scriptController.delegate else { return }
-			delegate.controller(scriptController, didCompleteAction: action)
+			delegate.controller(scriptController, didComplete: action)
 		}
 	}
 }

@@ -19,9 +19,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		window?.makeKeyAndVisible()
 		
 		automationController.execute(script: AutomationScript(actions: [
-			LoadAction(url: URL(string: "https://www.google.ca/")!),
-			SetAttributeAction(elementId: "lst-ib", name: "value", value: "banana"),
-			SubmitFormAction(formName: "gs"),
+			ScriptAction.load(url: URL(string: "https://www.google.ca/")!),
+			ScriptAction.setAttribute(name: "value", value: "banana", elementId: "lst-ib"),
+			ScriptAction.submit(formId: "tsf")
 		]))
 		
 		return true
