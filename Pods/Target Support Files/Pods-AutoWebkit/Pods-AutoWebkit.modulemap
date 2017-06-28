@@ -1,6 +1,0 @@
-framework module Pods_AutoWebkit {
-  umbrella header "Pods-AutoWebkit-umbrella.h"
-
-  export *
-  module * { export * }
-}
