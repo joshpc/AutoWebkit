@@ -49,6 +49,7 @@
 		F7BD929B1F03D298002A2809 /* DocumentTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DocumentTests.swift; sourceTree = "<group>"; };
 		F7BD929D1F03D29F002A2809 /* ScriptActionTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScriptActionTests.swift; sourceTree = "<group>"; };
 		F7BD929F1F03D2A9002A2809 /* AutoWebkitControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AutoWebkitControllerTests.swift; sourceTree = "<group>"; };
+		F7FD5E211F03E9FE00B8F00E /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -76,6 +77,7 @@
 				F7BD926E1F03D16D002A2809 /* AutoWebkit */,
 				F7BD92791F03D16E002A2809 /* AutoWebkitTests */,
 				F7BD926D1F03D16D002A2809 /* Products */,
+				F7FD5E201F03E9FE00B8F00E /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -154,6 +156,14 @@
 				F7BD929D1F03D29F002A2809 /* ScriptActionTests.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		F7FD5E201F03E9FE00B8F00E /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				F7FD5E211F03E9FE00B8F00E /* UIKit.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -488,6 +498,7 @@
 				F7BD92821F03D16E002A2809 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		F7BD92831F03D16E002A2809 /* Build configuration list for PBXNativeTarget "AutoWebkitTests" */ = {
 			isa = XCConfigurationList;
@@ -496,6 +507,7 @@
 				F7BD92851F03D16E002A2809 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
