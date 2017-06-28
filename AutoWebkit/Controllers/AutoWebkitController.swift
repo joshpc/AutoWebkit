@@ -124,10 +124,18 @@ class AutoWebkitController: UIViewController, WKNavigationDelegate, WKUIDelegate
 	
 	public func webView(_ webView: WKWebView, didFinish navigation: WKNavigation) {
 		navigations.remove(navigation)
+		
+		if hasLoaded == true {
+			processNextStepIfPossible()
+		}
 	}
 	
 	public func webView(_ webView: WKWebView, didFail navigation: WKNavigation, withError error: Error) {
 		navigations.remove(navigation)
+		
+		if hasLoaded == true {
+			processNextStepIfPossible()
+		}
 	}
 	
 	// MARK: WKUIDelegate Methods

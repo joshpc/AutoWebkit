@@ -20,9 +20,9 @@ protocol Scriptable {
 
 enum ScriptAction: Scriptable {
 	case load(url: URL)
-	case setAttribute(name: String, value: String?, elementId: String)
-	case wait(duration: TimeInterval)
-	case submit(formId: String)
+	case setAttribute(name: String, value: String?, selector: String)
+	case submit(selector: String)
+	case wait(duration: DispatchTimeInterval)
 	
 	case printDebugMessage(message: String)
 	
@@ -32,10 +32,10 @@ enum ScriptAction: Scriptable {
 			loadUrl(url, with: webView, completion: completion)
 		case .wait(let duration):
 			waitFor(duration, completion: completion)
-		case .submit(let formId):
-			submitForm(formId, with: webView, completion: completion)
-		case .setAttribute(let name, let value, let elementId):
-			updateAttribute(name, value: value, on: elementId, with: webView, completion: completion)
+		case .submit(let selector):
+			submitForm(matching: selector, with: webView, completion: completion)
+		case .setAttribute(let name, let value, let selector):
+			updateAttribute(name, value: value, withTagMatching: selector, with: webView, completion: completion)
 		case .printDebugMessage(let message):
 			printMessage(message, completion: completion)
 		}
@@ -46,7 +46,7 @@ enum ScriptAction: Scriptable {
 		completion(nil)
 	}
 	
-	private func waitFor(_ duration: TimeInterval, completion: @escaping ScriptableCompletionHandler) {
+	private func waitFor(_ duration: DispatchTimeInterval, completion: @escaping ScriptableCompletionHandler) {
 		DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + duration) {
 			completion(nil)
 		}
@@ -57,17 +57,17 @@ enum ScriptAction: Scriptable {
 		completion(nil)
 	}
 	
-	private func submitForm(_ id: String, with webView: WKWebView, completion: @escaping ScriptableCompletionHandler) {
+	private func submitForm(matching selector: String, with webView: WKWebView, completion: @escaping ScriptableCompletionHandler) {
 		//TODO: Consolidate these methods if I can?
-		var script = JavascriptUtil.query(id: id)
+		var script = JavascriptUtil.createSelector(selector)
 		script += "element.submit();"
 		webView.safelyEvaluateJavaScript(script) { (result, error) in
 			completion(error)
 		}
 	}
 	
-	private func updateAttribute(_ name: String, value: String?, on elementId: String, with webView: WKWebView, completion: @escaping ScriptableCompletionHandler) {
-		var script = JavascriptUtil.query(id: elementId)
+	private func updateAttribute(_ name: String, value: String?, withTagMatching selector: String, with webView: WKWebView, completion: @escaping ScriptableCompletionHandler) {
+		var script = JavascriptUtil.createSelector(selector)
 		if let value = value {
 			script += "element.setAttribute('\(name)', '\(value)');"
 		}
@@ -82,14 +82,14 @@ enum ScriptAction: Scriptable {
 }
 
 fileprivate class JavascriptUtil {
-	/// Returns an executable javascript fragment that lets you fetch an element by id, stored in a var named `element`
-	class func query(id: String) -> String {
-		return "var element = document.querySelector('[id=\"\(id)\"]');"
-	}
-	
-	// Returns an executable javascript fragment that lets you fetch an element by name, stored in var named `element`
-	class func query(name: String, tagName: String = "") -> String {
-		return "var element = document.querySelector('\(tagName)[name=\"\(name)\"]');"
+	///
+	/// Fetches the element that matches `selector`.
+	///
+	/// @param selector the CSS selector that matches the desired element (i.e  [id='15'])
+	///
+	class func createSelector(_ selector: String) -> String {
+		//TODO: Handle single quotes vs double quotes.
+		return "var element = document.querySelector(\"\(selector)\");"
 	}
 }
 
