@@ -9,7 +9,7 @@
 import UIKit
 import WebKit
 
-class AutoWebkitController: UIViewController, WKNavigationDelegate, WKUIDelegate, AutomationScriptControllerDelegate, WKScriptMessageHandler {
+public class AutoWebkitController: UIViewController, WKNavigationDelegate, WKUIDelegate, AutomationScriptControllerDelegate, WKScriptMessageHandler {
 	private var scriptController: AutomationScriptController?
 	
 	private var configuration: WKWebViewConfiguration!
@@ -22,7 +22,7 @@ class AutoWebkitController: UIViewController, WKNavigationDelegate, WKUIDelegate
 		return navigations.isEmpty == false
 	}
 	
-	override func loadView() {
+	public override func loadView() {
 		configuration = WKWebViewConfiguration()
 		configuration.userContentController.add(self, name: "bridge")
 		webView = WKWebView(frame: .zero, configuration: configuration)
@@ -33,13 +33,13 @@ class AutoWebkitController: UIViewController, WKNavigationDelegate, WKUIDelegate
 		scriptController?.webView = webView
 	}
 	
-	override func viewWillAppear(_ animated: Bool) {
+	public override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
 		
 		processNextStepIfPossible()
 	}
 	
-	func execute(script: AutomationScript) {
+	open func execute(script: AutomationScript) {
 		scriptController = AutomationScriptController(script: script)
 		scriptController?.delegate = self
 		scriptController?.webView = webView
@@ -59,11 +59,11 @@ class AutoWebkitController: UIViewController, WKNavigationDelegate, WKUIDelegate
 	
 	// MARK: AutomationScriptControllerDelegate Methods
 	
-	func controller(_ controller: AutomationScriptController, willExecute: Scriptable) {
+	open func controller(_ controller: AutomationScriptController, willExecute: Scriptable) {
 		isScriptRunning = true
 	}
 	
-	func controller(_ controller: AutomationScriptController, didComplete: Scriptable) {
+	open func controller(_ controller: AutomationScriptController, didComplete: Scriptable) {
 		isScriptRunning = false
 		
 		if hasLoaded {
@@ -172,7 +172,7 @@ class AutoWebkitController: UIViewController, WKNavigationDelegate, WKUIDelegate
 	
 	// MARK: WKScriptMessageHandler
 	
-	func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
+	public func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
 		hasLoaded = true
 		processNextStepIfPossible()
 	}

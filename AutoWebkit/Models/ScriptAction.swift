@@ -6,19 +6,18 @@
 //  Copyright © 2017 Joshua Tessier. All rights reserved.
 //
 
-import UIKit
 import WebKit
 
-typealias ScriptableCompletionHandler = ((Error?) -> Void)
+public typealias ScriptableCompletionHandler = ((Error?) -> Void)
 
 ///
 /// Encompasses a set of actions that the automation script should do
 ///
-protocol Scriptable {
+public protocol Scriptable {
 	func performAction(with webView: WKWebView, completion: @escaping ScriptableCompletionHandler)
 }
 
-enum ScriptAction: Scriptable {
+public enum ScriptAction: Scriptable {
 	case load(url: URL)
 	case setAttribute(name: String, value: String?, selector: String)
 	case submit(selector: String)
@@ -26,7 +25,7 @@ enum ScriptAction: Scriptable {
 	
 	case printDebugMessage(message: String)
 	
-	func performAction(with webView: WKWebView, completion: @escaping ScriptableCompletionHandler) {
+	public func performAction(with webView: WKWebView, completion: @escaping ScriptableCompletionHandler) {
 		switch self {
 		case .load(let url):
 			loadUrl(url, with: webView, completion: completion)
@@ -93,7 +92,7 @@ fileprivate class JavascriptUtil {
 	}
 }
 
-extension WKWebView {
+fileprivate extension WKWebView {
 	func safelyEvaluateJavaScript(_ javaScriptString: String, completionHandler: ((Any?, Error?) -> Swift.Void)? = nil) {
 		evaluateJavaScript("{ \(javaScriptString) }", completionHandler: completionHandler)
 	}

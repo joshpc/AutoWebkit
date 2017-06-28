@@ -6,11 +6,9 @@
 //  Copyright © 2017 Joshua Tessier. All rights reserved.
 //
 
-import UIKit
-
 ///
 /// Encapsulates a list of actions that should be done
 ///
-struct AutomationScript {
+public struct AutomationScript {
 	let actions: [Scriptable]
 }

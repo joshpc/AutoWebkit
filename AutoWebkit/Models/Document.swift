@@ -6,13 +6,11 @@
 //  Copyright © 2017 Joshua Tessier. All rights reserved.
 //
 
-import UIKit
+import Foundation
 
 ///
 /// A simple class representing a web document
 ///
-class Document: NSObject {
-	init(html: String) {
-		
-	}
+public class Document: NSObject {
+
 }

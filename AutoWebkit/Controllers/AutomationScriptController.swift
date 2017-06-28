@@ -6,10 +6,10 @@
 //  Copyright © 2017 Joshua Tessier. All rights reserved.
 //
 
-import UIKit
+import Foundation
 import WebKit
 
-protocol AutomationScriptControllerDelegate: NSObjectProtocol {
+public protocol AutomationScriptControllerDelegate: NSObjectProtocol {
 	func controller(_ controller: AutomationScriptController, willExecute: Scriptable)
 	func controller(_ controller: AutomationScriptController, didComplete: Scriptable)
 }
@@ -17,24 +17,23 @@ protocol AutomationScriptControllerDelegate: NSObjectProtocol {
 ///
 /// A controller that executes a script
 ///
-class AutomationScriptController: NSObject {
+public class AutomationScriptController: NSObject {
 	private var currentActionIndex = -1
 	
-	var webView: WKWebView?
+	public var webView: WKWebView?
 	
-	let script: AutomationScript
-	var currentAction: ScriptAction?
-	weak var delegate: AutomationScriptControllerDelegate?
+	public let script: AutomationScript
+	public weak var delegate: AutomationScriptControllerDelegate?
 	
-	var isFinished: Bool {
+	public var isFinished: Bool {
 		return currentActionIndex + 1 >= script.actions.count
 	}
 	
-	init(script: AutomationScript) {
+	public init(script: AutomationScript) {
 		self.script = script
 	}
 	
-	func processNextStep() {
+	public func processNextStep() {
 		guard let webView = webView else {
 			print("Cannot process any steps -- no webview")
 			return
