@@ -97,6 +97,8 @@ class AutoWebkitControllerTests: XCTestCase {
 		XCTAssertEqual(0, mockDelegate.willExecuteCallCount)
 	}
 	
+	//TODO: test using load(url:)
+	
 	func testLoadingHtml() {
 		let loadedHtml = "<html><head></head><body><p>dinosaur</p></body></html>"
 		let steps: [ScriptAction] = [
@@ -111,6 +113,28 @@ class AutoWebkitControllerTests: XCTestCase {
 		controller.fetchRawContents { (html, error) in
 			XCTAssertNil(error)
 			XCTAssertEqual(loadedHtml, html)
+			fetchExpectation.fulfill()
+		}
+		
+		XCTAssertEqual(.completed, XCTWaiter.wait(for: [fetchExpectation], timeout: 1.0))
+	}
+	
+	func testJavascriptBasedAction() {
+		let loadedHtml = "<html><head></head><body><form><input type=\"text\" id=\"banana\"></form></body></html>"
+		let expectedHtml = "<html><head></head><body><form><input type=\"text\" id=\"banana\" value=\"dinosaur\"></form></body></html>"
+		
+		let steps: [ScriptAction] = [
+			.loadHtml(html: loadedHtml, baseURL: nil),
+			.setAttribute(name: "value", value: "dinosaur", selector: "[id='banana']"),
+		]
+		
+		controller.execute(script: AutomationScript(steps: steps))
+		XCTAssertEqual(.completed, XCTWaiter.wait(for: [completedExpectation], timeout: 3.0))
+		
+		let fetchExpectation = XCTestExpectation()
+		controller.fetchRawContents { (html, error) in
+			XCTAssertNil(error)
+			XCTAssertEqual(expectedHtml, html)
 			fetchExpectation.fulfill()
 		}
 		

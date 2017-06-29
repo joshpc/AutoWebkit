@@ -123,16 +123,6 @@ public class AutoWebkitController: NSObject, WKNavigationDelegate, WKUIDelegate,
 	}
 	
 	private func finish(_ step: Scriptable) {
-//		//Handle special cases
-//		if let step = step as? ScriptAction {
-//			switch step {
-//			case .loadHtml(_, _):
-//				self.attachOnLoadListener()
-//			default:
-//				break
-//			}
-//		}
-		
 		isRunningStep = false
 		delegate?.controller(self, didCompleteStep: step)
 
