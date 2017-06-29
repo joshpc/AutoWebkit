@@ -16,15 +16,22 @@ public typealias Controller = NSViewController
 import WebKit
 
 public protocol AutoWebkitControllerDelegate: NSObjectProtocol {
+	///Called whenever a script is being executed. This is NOT invoked for scripts with no entries.
 	func controller(_ controller: AutoWebkitController, willBeginExecuting: AutomationScript)
+	
+	///Called whenever a script has compelted. This is NOT invoked for scripts with no entries.
 	func controller(_ controller: AutoWebkitController, didFinishExecuting: AutomationScript)
 	
+	///Called whenever a step will be executed.
 	func controller(_ controller: AutoWebkitController, willExecuteStep: Scriptable)
+	
+	//Called whenever a step did complete.
 	func controller(_ controller: AutoWebkitController, didCompleteStep: Scriptable)
 }
 
 public class AutoWebkitController: NSObject, WKNavigationDelegate, WKUIDelegate, WKScriptMessageHandler {
 	private let configuration: WKWebViewConfiguration
+	private let superview = NSView()
 	private let webView: WKWebView
 	
 	private var navigations = Set<WKNavigation>()
@@ -34,10 +41,16 @@ public class AutoWebkitController: NSObject, WKNavigationDelegate, WKUIDelegate,
 	
 	private var script: AutomationScript?
 	
+	private var attachmentHistory = [WKNavigation: Bool]()
+	
 	public weak var delegate: AutoWebkitControllerDelegate?
 	
 	private var isLoading: Bool {
 		return navigations.isEmpty == false
+	}
+	
+	public var canProcessScript: Bool {
+		return isLoading == false && isRunningStep == false
 	}
 	
 	public var isFinished: Bool {
@@ -54,6 +67,8 @@ public class AutoWebkitController: NSObject, WKNavigationDelegate, WKUIDelegate,
 		configuration.userContentController.add(self, name: "bridge")
 		self.webView.uiDelegate = self
 		self.webView.navigationDelegate = self
+		
+		superview.addSubview(self.webView)
 	}
 
 	open func execute(script: AutomationScript) {
@@ -62,11 +77,19 @@ public class AutoWebkitController: NSObject, WKNavigationDelegate, WKUIDelegate,
 		processNextStepIfPossible()
 	}
 	
+	open func fetchRawContents(completion: @escaping ((String?, Error?) -> Void)) {
+		guard canProcessScript else { return }
+		
+		webView.evaluateJavaScript("document.documentElement.outerHTML.toString()") { (html, error) in
+			completion(html as? String, error)
+		}
+	}
+	
 	// MARK: Helpers
 	
 	private func processNextStepIfPossible() {
 		let nextStepIndex = stepIndex + 1
-		guard isFinished == false, isLoading == false, isRunningStep == false else { return }
+		guard isFinished == false && canProcessScript else { return }
 		guard let script = script, nextStepIndex < script.steps.count else { return }
 		
 		let step = script.steps[nextStepIndex]
@@ -100,6 +123,16 @@ public class AutoWebkitController: NSObject, WKNavigationDelegate, WKUIDelegate,
 	}
 	
 	private func finish(_ step: Scriptable) {
+//		//Handle special cases
+//		if let step = step as? ScriptAction {
+//			switch step {
+//			case .loadHtml(_, _):
+//				self.attachOnLoadListener()
+//			default:
+//				break
+//			}
+//		}
+		
 		isRunningStep = false
 		delegate?.controller(self, didCompleteStep: step)
 
@@ -114,7 +147,7 @@ public class AutoWebkitController: NSObject, WKNavigationDelegate, WKUIDelegate,
 	}
 	
 	private func attachOnLoadListener() {
-		if let path = Bundle.main.path(forResource: "onLoad", ofType: "js") {
+		if let path = Bundle(for: AutoWebkitController.self).path(forResource: "onLoad", ofType: "js") {
 			do {
 				let javascript = try String(contentsOfFile: path, encoding: .utf8)
 				webView.evaluateJavaScript(javascript) { (result, error) in
@@ -166,13 +199,11 @@ public class AutoWebkitController: NSObject, WKNavigationDelegate, WKUIDelegate,
 	
 	public func webView(_ webView: WKWebView, didFinish navigation: WKNavigation) {
 		navigations.remove(navigation)
-		
 		processNextStepIfPossible()
 	}
 	
 	public func webView(_ webView: WKWebView, didFail navigation: WKNavigation, withError error: Error) {
 		navigations.remove(navigation)
-		
 		processNextStepIfPossible()
 	}
 	

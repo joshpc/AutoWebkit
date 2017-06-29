@@ -23,11 +23,12 @@ public enum ScriptAction: Scriptable {
 	case setAttribute(name: String, value: String?, selector: String)
 	case submit(selector: String)
 	case wait(duration: DispatchTimeInterval)
+	case waitUntilLoaded
 	case printDebugMessage(message: String)
 	
 	var requiresLoaded: Bool {
 		switch self {
-		case .printDebugMessage, .wait:
+		case .printDebugMessage, .wait, .load, .loadHtml:
 			return false
 		default:
 			return true
@@ -42,6 +43,9 @@ public enum ScriptAction: Scriptable {
 			loadHtmlString(html, baseURL: baseURL, with: webView, completion: completion)
 		case .wait(let duration):
 			waitFor(duration, completion: completion)
+		case .waitUntilLoaded:
+			//Since the `waitUntilLoaded` task `requiresLoaded`, it won't get run. This is effectively a blocker step.
+			completion(nil)
 		case .submit(let selector):
 			submitForm(matching: selector, with: webView, completion: completion)
 		case .setAttribute(let name, let value, let selector):

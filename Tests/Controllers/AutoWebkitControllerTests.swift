@@ -80,6 +80,8 @@ class AutoWebkitControllerTests: XCTestCase {
 			.printDebugMessage(message: "dinosaur")
 		]
 		controller.execute(script: AutomationScript(steps: steps))
+		XCTAssertEqual(.completed, XCTWaiter.wait(for: [completedExpectation], timeout: 1.0))
+		
 		XCTAssertEqual(mockDelegate.willExecuteCallCount, mockDelegate.didCompleteCallCount)
 		XCTAssertEqual(2, mockDelegate.willExecuteCallCount)
 		XCTAssertEqual(true, controller.isFinished)
@@ -93,5 +95,25 @@ class AutoWebkitControllerTests: XCTestCase {
 		XCTAssertEqual(true, controller.isFinished)
 		XCTAssertEqual(mockDelegate.willExecuteCallCount, mockDelegate.didCompleteCallCount)
 		XCTAssertEqual(0, mockDelegate.willExecuteCallCount)
+	}
+	
+	func testLoadingHtml() {
+		let loadedHtml = "<html><head></head><body><p>dinosaur</p></body></html>"
+		let steps: [ScriptAction] = [
+			.loadHtml(html: loadedHtml, baseURL: nil),
+			.waitUntilLoaded,
+		]
+		
+		controller.execute(script: AutomationScript(steps: steps))
+		XCTAssertEqual(.completed, XCTWaiter.wait(for: [completedExpectation], timeout: 3.0))
+		
+		let fetchExpectation = XCTestExpectation()
+		controller.fetchRawContents { (html, error) in
+			XCTAssertNil(error)
+			XCTAssertEqual(loadedHtml, html)
+			fetchExpectation.fulfill()
+		}
+		
+		XCTAssertEqual(.completed, XCTWaiter.wait(for: [fetchExpectation], timeout: 1.0))
 	}
 }
