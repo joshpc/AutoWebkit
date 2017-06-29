@@ -18,9 +18,17 @@ import WebKit
 class MockWebview: WKWebView {
 	var attemptedUrl: String?
 	var attemptedJavascript: String?
+	var attemptedBody: String?
+	var attemptedBaseURL: URL?
 	
 	override func load(_ request: URLRequest) -> WKNavigation? {
 		attemptedUrl = request.url?.absoluteString
+		return nil
+	}
+	
+	override func loadHTMLString(_ string: String, baseURL: URL?) -> WKNavigation? {
+		attemptedBody = string
+		attemptedBaseURL = baseURL
 		return nil
 	}
 	
@@ -50,6 +58,21 @@ class ScriptActionTests: XCTestCase {
 		
 		XCTAssertEqual(.completed, XCTWaiter.wait(for: [completedExpectation], timeout: 1.0))
 		XCTAssertEqual("http://www.banana.com/", webView.attemptedUrl)
+	}
+
+	func testLoadHtmlString() {
+		let html = "<html><body>banana</body></html>"
+		let url = URL(string: "http://www.banana.com/")!
+		let action = ScriptAction.loadHtml(html: html, baseURL: url)
+		
+		action.performAction(with: webView) { (error) in
+			self.completedExpectation.fulfill()
+		}
+		
+		XCTAssertEqual(.completed, XCTWaiter.wait(for: [completedExpectation], timeout: 1.0))
+		
+		XCTAssertEqual(webView.attemptedBody, html)
+		XCTAssertEqual(webView.attemptedBaseURL, url)
 	}
 	
 	func testSetAttributeAction() {

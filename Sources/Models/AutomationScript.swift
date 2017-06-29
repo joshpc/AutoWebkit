@@ -10,5 +10,5 @@
 /// Encapsulates a list of actions that should be done
 ///
 public struct AutomationScript {
-	let actions: [Scriptable]
+	let steps: [Scriptable]
 }

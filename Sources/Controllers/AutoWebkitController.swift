@@ -15,49 +15,49 @@ public typealias Controller = NSViewController
 #endif
 import WebKit
 
-public class AutoWebkitController: Controller, WKNavigationDelegate, WKUIDelegate, AutomationScriptControllerDelegate, WKScriptMessageHandler {
-	private var scriptController: AutomationScriptController?
+public protocol AutoWebkitControllerDelegate: NSObjectProtocol {
+	func controller(_ controller: AutoWebkitController, willBeginExecuting: AutomationScript)
+	func controller(_ controller: AutoWebkitController, didFinishExecuting: AutomationScript)
 	
-	private var configuration: WKWebViewConfiguration!
-	private var webView: WKWebView!
+	func controller(_ controller: AutoWebkitController, willExecuteStep: Scriptable)
+	func controller(_ controller: AutoWebkitController, didCompleteStep: Scriptable)
+}
+
+public class AutoWebkitController: NSObject, WKNavigationDelegate, WKUIDelegate, WKScriptMessageHandler {
+	private let configuration: WKWebViewConfiguration
+	private let webView: WKWebView
+	
 	private var navigations = Set<WKNavigation>()
-	
-	private var isScriptRunning = false
+	private var stepIndex = -1
+	private var isRunningStep = false
 	private var hasLoaded: Bool = false
+	
+	private var script: AutomationScript?
+	
+	public weak var delegate: AutoWebkitControllerDelegate?
+	
 	private var isLoading: Bool {
 		return navigations.isEmpty == false
 	}
 	
-	public override func loadView() {
-		configuration = WKWebViewConfiguration()
+	public var isFinished: Bool {
+		return stepIndex + 1 >= script?.steps.count ?? 0
+	}
+	
+	public required init(webView: WKWebView? = nil) {
+		let configuration = WKWebViewConfiguration()
+		self.webView = webView ?? WKWebView(frame: .zero, configuration: configuration)
+		self.configuration = configuration
+		
+		super.init()
+		
 		configuration.userContentController.add(self, name: "bridge")
-		webView = WKWebView(frame: .zero, configuration: configuration)
-		webView.uiDelegate = self
-		webView.navigationDelegate = self
-		view = webView
-	
-		scriptController?.webView = webView
+		self.webView.uiDelegate = self
+		self.webView.navigationDelegate = self
 	}
-	
-#if os(iOS) || os(tvOS) || os(watchOS)
-	public override func viewWillAppear(_ animated: Bool) {
-		super.viewWillAppear(animated)
-		
-		processNextStepIfPossible()
-	}
-#elseif os(OSX)
-	public override func viewWillAppear() {
-		super.viewWillAppear()
-		
-		processNextStepIfPossible()
-	}
-#endif
-	
-	
+
 	open func execute(script: AutomationScript) {
-		scriptController = AutomationScriptController(script: script)
-		scriptController?.delegate = self
-		scriptController?.webView = webView
+		self.script = script
 		
 		processNextStepIfPossible()
 	}
@@ -65,23 +65,50 @@ public class AutoWebkitController: Controller, WKNavigationDelegate, WKUIDelegat
 	// MARK: Helpers
 	
 	private func processNextStepIfPossible() {
-		guard let scriptController = scriptController else { return }
+		let nextStepIndex = stepIndex + 1
+		guard isFinished == false, isLoading == false, isRunningStep == false else { return }
+		guard let script = script, nextStepIndex < script.steps.count else { return }
 		
-		if isScriptRunning == false && isLoading == false && scriptController.isFinished == false {
-			scriptController.processNextStep()
+		let step = script.steps[nextStepIndex]
+		if let step = step as? ScriptAction {
+			guard step.requiresLoaded == false || (step.requiresLoaded && hasLoaded) else { return }
+		}
+		
+		process(script: script, step: step, at: nextStepIndex)
+	}
+	
+	private func process(script: AutomationScript, step: Scriptable, at index: Int) {
+		if index == 0 {
+			delegate?.controller(self, willBeginExecuting: script)
+		}
+		
+		stepIndex = index
+		execute(step)
+	}
+	
+	private func execute(_ step: Scriptable) {
+		delegate?.controller(self, willExecuteStep: step)
+		isRunningStep = true
+		
+		step.performAction(with: webView) { [weak self] (error) in
+			if let error = error {
+				print("Error while performing step: \(step) with \(error)")
+			}
+			
+			self?.finish(step)
 		}
 	}
 	
-	// MARK: AutomationScriptControllerDelegate Methods
-	
-	open func controller(_ controller: AutomationScriptController, willExecute: Scriptable) {
-		isScriptRunning = true
-	}
-	
-	open func controller(_ controller: AutomationScriptController, didComplete: Scriptable) {
-		isScriptRunning = false
+	private func finish(_ step: Scriptable) {
+		isRunningStep = false
+		delegate?.controller(self, didCompleteStep: step)
+
+		guard let script = script else { return }
 		
-		if hasLoaded {
+		if isFinished {
+			delegate?.controller(self, didFinishExecuting: script)
+		}
+		else {
 			processNextStepIfPossible()
 		}
 	}

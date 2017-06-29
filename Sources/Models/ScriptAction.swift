@@ -19,16 +19,27 @@ public protocol Scriptable {
 
 public enum ScriptAction: Scriptable {
 	case load(url: URL)
+	case loadHtml(html: String, baseURL: URL?)
 	case setAttribute(name: String, value: String?, selector: String)
 	case submit(selector: String)
 	case wait(duration: DispatchTimeInterval)
-	
 	case printDebugMessage(message: String)
+	
+	var requiresLoaded: Bool {
+		switch self {
+		case .printDebugMessage, .wait:
+			return false
+		default:
+			return true
+		}
+	}
 	
 	public func performAction(with webView: WKWebView, completion: @escaping ScriptableCompletionHandler) {
 		switch self {
 		case .load(let url):
 			loadUrl(url, with: webView, completion: completion)
+		case .loadHtml(let html, let baseURL):
+			loadHtmlString(html, baseURL: baseURL, with: webView, completion: completion)
 		case .wait(let duration):
 			waitFor(duration, completion: completion)
 		case .submit(let selector):
@@ -42,6 +53,11 @@ public enum ScriptAction: Scriptable {
 	
 	private func loadUrl(_ url: URL, with webView: WKWebView, completion: ScriptableCompletionHandler) {
 		webView.load(URLRequest(url: url))
+		completion(nil)
+	}
+	
+	private func loadHtmlString(_ html: String, baseURL: URL?, with webView: WKWebView, completion: ScriptableCompletionHandler) {
+		webView.loadHTMLString(html, baseURL: baseURL)
 		completion(nil)
 	}
 	

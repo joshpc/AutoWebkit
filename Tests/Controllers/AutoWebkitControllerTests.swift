@@ -13,7 +13,85 @@ import XCTest
 	@testable import AutoWebkitMacOS
 #endif
 
+class MockAutoWebkitControllerDelegate: NSObject, AutoWebkitControllerDelegate {
+	private let expectation: XCTestExpectation
+	
+	init(expectation: XCTestExpectation) {
+		self.expectation = expectation
+	}
+	
+	var willExecuteCallCount = 0
+	var didCompleteCallCount = 0
+	var willBeginScriptCount = 0
+	var didFinishScriptCount = 0
+	
+	func controller(_ controller: AutoWebkitController, willBeginExecuting: AutomationScript) {
+		willBeginScriptCount += 1
+	}
+	
+	func controller(_ controller: AutoWebkitController, didFinishExecuting: AutomationScript) {
+		didFinishScriptCount += 1
+		
+		expectation.fulfill()
+	}
+	
+	func controller(_ controller: AutoWebkitController, willExecuteStep: Scriptable) {
+		willExecuteCallCount += 1
+	}
+	
+	func controller(_ controller: AutoWebkitController, didCompleteStep: Scriptable) {
+		didCompleteCallCount += 1
+	}
+}
 
 class AutoWebkitControllerTests: XCTestCase {
-
+	var mockDelegate: MockAutoWebkitControllerDelegate!
+	var controller: AutoWebkitController!
+	var completedExpectation: XCTestExpectation!
+	
+	override func setUp() {
+		super.setUp()
+		
+		completedExpectation = XCTestExpectation()
+		controller = AutoWebkitController()
+		mockDelegate = MockAutoWebkitControllerDelegate(expectation: completedExpectation)
+		controller.delegate = mockDelegate
+	}
+	
+	// MARK: Testing Delegate Calls
+		
+	func testDelegateInvokes() {
+		let steps: [ScriptAction] = [
+			.printDebugMessage(message: "banana")
+		]
+		
+		controller.execute(script: AutomationScript(steps: steps))
+		XCTAssertEqual(.completed, XCTWaiter.wait(for: [completedExpectation], timeout: 1.0))
+		
+		XCTAssertEqual(1, mockDelegate.willBeginScriptCount)
+		XCTAssertEqual(1, mockDelegate.didFinishScriptCount)
+		XCTAssertEqual(mockDelegate.willExecuteCallCount, mockDelegate.didCompleteCallCount)
+		XCTAssertEqual(1, mockDelegate.willExecuteCallCount)
+	}
+	
+	func testMultipleActions() {
+		let steps: [ScriptAction] = [
+			.printDebugMessage(message: "banana"),
+			.printDebugMessage(message: "dinosaur")
+		]
+		controller.execute(script: AutomationScript(steps: steps))
+		XCTAssertEqual(mockDelegate.willExecuteCallCount, mockDelegate.didCompleteCallCount)
+		XCTAssertEqual(2, mockDelegate.willExecuteCallCount)
+		XCTAssertEqual(true, controller.isFinished)
+	}
+	
+	func testEmptyScript() {
+		let steps: [ScriptAction] = []
+		
+		controller.execute(script: AutomationScript(steps: steps))
+		
+		XCTAssertEqual(true, controller.isFinished)
+		XCTAssertEqual(mockDelegate.willExecuteCallCount, mockDelegate.didCompleteCallCount)
+		XCTAssertEqual(0, mockDelegate.willExecuteCallCount)
+	}
 }
