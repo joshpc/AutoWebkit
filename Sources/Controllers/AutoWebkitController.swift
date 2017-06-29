@@ -6,10 +6,16 @@
 //  Copyright © 2017 Joshua Tessier. All rights reserved.
 //
 
+#if os(iOS) || os(tvOS) || os(watchOS)
 import UIKit
+public typealias Controller = UIViewController
+#elseif os(OSX)
+import AppKit
+public typealias Controller = NSViewController
+#endif
 import WebKit
 
-public class AutoWebkitController: UIViewController, WKNavigationDelegate, WKUIDelegate, AutomationScriptControllerDelegate, WKScriptMessageHandler {
+public class AutoWebkitController: Controller, WKNavigationDelegate, WKUIDelegate, AutomationScriptControllerDelegate, WKScriptMessageHandler {
 	private var scriptController: AutomationScriptController?
 	
 	private var configuration: WKWebViewConfiguration!
@@ -33,11 +39,20 @@ public class AutoWebkitController: UIViewController, WKNavigationDelegate, WKUID
 		scriptController?.webView = webView
 	}
 	
+#if os(iOS) || os(tvOS) || os(watchOS)
 	public override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
 		
 		processNextStepIfPossible()
 	}
+#elseif os(OSX)
+	public override func viewWillAppear() {
+		super.viewWillAppear()
+		
+		processNextStepIfPossible()
+	}
+#endif
+	
 	
 	open func execute(script: AutomationScript) {
 		scriptController = AutomationScriptController(script: script)
@@ -165,10 +180,12 @@ public class AutoWebkitController: UIViewController, WKNavigationDelegate, WKUID
 		completionHandler(nil)
 	}
 	
+#if os(iOS) || os(tvOS) || os(watchOS)
 	public func webView(_ webView: WKWebView, shouldPreviewElement elementInfo: WKPreviewElementInfo) -> Bool {
 		//Previewing is strticly disabled
 		return false
 	}
+#endif
 	
 	// MARK: WKScriptMessageHandler
 	

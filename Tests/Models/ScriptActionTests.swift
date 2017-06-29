@@ -8,7 +8,12 @@
 
 import XCTest
 import WebKit
-@testable import AutoWebkit
+#if os(iOS) || os(tvOS) || os(watchOS)
+	@testable import AutoWebkit
+#else
+	@testable import AutoWebkitMacOS
+#endif
+
 
 class MockWebview: WKWebView {
 	var attemptedUrl: String?

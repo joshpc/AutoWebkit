@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F753AC9F1F04FC2A00C03610 /* AutoWebkitMacOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F7E630791F04F6200042B606 /* AutoWebkitMacOS.framework */; };
 		F768E9981F04F97B002AE8DE /* AutoWebkit.h in Headers */ = {isa = PBXBuildFile; fileRef = F7E630BD1F04F7510042B606 /* AutoWebkit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F768E9991F04F985002AE8DE /* AutomationScriptController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7E630AA1F04F7370042B606 /* AutomationScriptController.swift */; };
 		F768E99A1F04F985002AE8DE /* AutoWebkitController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7E630AB1F04F7370042B606 /* AutoWebkitController.swift */; };
@@ -25,7 +26,6 @@
 		F768E9A71F04F9EE002AE8DE /* DocumentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7E630C71F04F76A0042B606 /* DocumentTests.swift */; };
 		F768E9A81F04F9EE002AE8DE /* ScriptActionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7E630C81F04F76A0042B606 /* ScriptActionTests.swift */; };
 		F7BD92761F03D16E002A2809 /* AutoWebkit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F7BD926C1F03D16D002A2809 /* AutoWebkit.framework */; };
-		F7E630821F04F6200042B606 /* AutoWebkitMacOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F7E630791F04F6200042B606 /* AutoWebkitMacOS.framework */; };
 		F7E630B51F04F7370042B606 /* AutomationScriptController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7E630AA1F04F7370042B606 /* AutomationScriptController.swift */; };
 		F7E630B61F04F7370042B606 /* AutoWebkitController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7E630AB1F04F7370042B606 /* AutoWebkitController.swift */; };
 		F7E630B71F04F7370042B606 /* AutomationScript.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7E630AD1F04F7370042B606 /* AutomationScript.swift */; };
@@ -102,7 +102,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F7E630821F04F6200042B606 /* AutoWebkitMacOS.framework in Frameworks */,
+				F753AC9F1F04FC2A00C03610 /* AutoWebkitMacOS.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -7,7 +7,12 @@
 //
 
 import XCTest
-@testable import AutoWebkit
+#if os(iOS) || os(tvOS) || os(watchOS)
+	@testable import AutoWebkit
+#else
+	@testable import AutoWebkitMacOS
+#endif
+
 
 class AutomationScriptTests: XCTestCase {
 

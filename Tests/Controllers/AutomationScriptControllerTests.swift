@@ -8,7 +8,13 @@
 
 import XCTest
 import WebKit
-@testable import AutoWebkit
+
+#if os(iOS) || os(tvOS) || os(watchOS)
+	@testable import AutoWebkit
+#else
+	@testable import AutoWebkitMacOS
+#endif
+
 
 class MockAutomationScriptControllerDelegate: NSObject, AutomationScriptControllerDelegate {
 	var willExecuteCallCount = 0

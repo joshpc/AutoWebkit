@@ -6,8 +6,10 @@ Pod::Spec.new do |spec|
   spec.license = { type: 'MIT', file: 'LICENSE' }
   spec.authors = { "Joshua Tessier" => 'joshpc@gmail.com' }
 
-  spec.platform = :ios, "10"
   spec.requires_arc = true
   spec.source = { git: "https://github.com/joshpc/AutoWebkit.git", tag: "v#{spec.version}", submodules: true }
   spec.source_files = "AutoWebkit/**/*.{h,swift}"
+
+  spec.ios.framework  = 'UIKit'
+  spec.osx.framework  = 'AppKit'
 end
