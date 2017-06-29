@@ -7,19 +7,32 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F768E9981F04F97B002AE8DE /* AutoWebkit.h in Headers */ = {isa = PBXBuildFile; fileRef = F7E630BD1F04F7510042B606 /* AutoWebkit.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F768E9991F04F985002AE8DE /* AutomationScriptController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7E630AA1F04F7370042B606 /* AutomationScriptController.swift */; };
+		F768E99A1F04F985002AE8DE /* AutoWebkitController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7E630AB1F04F7370042B606 /* AutoWebkitController.swift */; };
+		F768E99B1F04F985002AE8DE /* AutomationScript.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7E630AD1F04F7370042B606 /* AutomationScript.swift */; };
+		F768E99C1F04F985002AE8DE /* Document.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7E630AE1F04F7370042B606 /* Document.swift */; };
+		F768E99D1F04F985002AE8DE /* ScriptAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7E630AF1F04F7370042B606 /* ScriptAction.swift */; };
+		F768E99E1F04F989002AE8DE /* onLoad.js in Resources */ = {isa = PBXBuildFile; fileRef = F7E630B41F04F7370042B606 /* onLoad.js */; };
+		F768E99F1F04F9E6002AE8DE /* AutomationScriptControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7E630C21F04F76A0042B606 /* AutomationScriptControllerTests.swift */; };
+		F768E9A01F04F9E6002AE8DE /* AutoWebkitControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7E630C31F04F76A0042B606 /* AutoWebkitControllerTests.swift */; };
+		F768E9A11F04F9E6002AE8DE /* AutomationScriptTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7E630C61F04F76A0042B606 /* AutomationScriptTests.swift */; };
+		F768E9A21F04F9E6002AE8DE /* DocumentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7E630C71F04F76A0042B606 /* DocumentTests.swift */; };
+		F768E9A31F04F9E6002AE8DE /* ScriptActionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7E630C81F04F76A0042B606 /* ScriptActionTests.swift */; };
+		F768E9A41F04F9EE002AE8DE /* AutomationScriptControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7E630C21F04F76A0042B606 /* AutomationScriptControllerTests.swift */; };
+		F768E9A51F04F9EE002AE8DE /* AutoWebkitControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7E630C31F04F76A0042B606 /* AutoWebkitControllerTests.swift */; };
+		F768E9A61F04F9EE002AE8DE /* AutomationScriptTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7E630C61F04F76A0042B606 /* AutomationScriptTests.swift */; };
+		F768E9A71F04F9EE002AE8DE /* DocumentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7E630C71F04F76A0042B606 /* DocumentTests.swift */; };
+		F768E9A81F04F9EE002AE8DE /* ScriptActionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7E630C81F04F76A0042B606 /* ScriptActionTests.swift */; };
 		F7BD92761F03D16E002A2809 /* AutoWebkit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F7BD926C1F03D16D002A2809 /* AutoWebkit.framework */; };
-		F7BD927D1F03D16E002A2809 /* AutoWebkit.h in Headers */ = {isa = PBXBuildFile; fileRef = F7BD926F1F03D16D002A2809 /* AutoWebkit.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		F7BD928F1F03D18C002A2809 /* AutomationScriptController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7BD92871F03D18C002A2809 /* AutomationScriptController.swift */; };
-		F7BD92901F03D18C002A2809 /* AutoWebkitController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7BD92881F03D18C002A2809 /* AutoWebkitController.swift */; };
-		F7BD92911F03D18C002A2809 /* AutomationScript.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7BD928A1F03D18C002A2809 /* AutomationScript.swift */; };
-		F7BD92921F03D18C002A2809 /* Document.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7BD928B1F03D18C002A2809 /* Document.swift */; };
-		F7BD92931F03D18C002A2809 /* ScriptAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7BD928C1F03D18C002A2809 /* ScriptAction.swift */; };
-		F7BD92941F03D18C002A2809 /* onLoad.js in Resources */ = {isa = PBXBuildFile; fileRef = F7BD928E1F03D18C002A2809 /* onLoad.js */; };
-		F7BD92981F03D285002A2809 /* AutomationScriptControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7BD92971F03D285002A2809 /* AutomationScriptControllerTests.swift */; };
-		F7BD929A1F03D292002A2809 /* AutomationScriptTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7BD92991F03D292002A2809 /* AutomationScriptTests.swift */; };
-		F7BD929C1F03D298002A2809 /* DocumentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7BD929B1F03D298002A2809 /* DocumentTests.swift */; };
-		F7BD929E1F03D29F002A2809 /* ScriptActionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7BD929D1F03D29F002A2809 /* ScriptActionTests.swift */; };
-		F7BD92A01F03D2A9002A2809 /* AutoWebkitControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7BD929F1F03D2A9002A2809 /* AutoWebkitControllerTests.swift */; };
+		F7E630821F04F6200042B606 /* AutoWebkitMacOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F7E630791F04F6200042B606 /* AutoWebkitMacOS.framework */; };
+		F7E630B51F04F7370042B606 /* AutomationScriptController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7E630AA1F04F7370042B606 /* AutomationScriptController.swift */; };
+		F7E630B61F04F7370042B606 /* AutoWebkitController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7E630AB1F04F7370042B606 /* AutoWebkitController.swift */; };
+		F7E630B71F04F7370042B606 /* AutomationScript.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7E630AD1F04F7370042B606 /* AutomationScript.swift */; };
+		F7E630B81F04F7370042B606 /* Document.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7E630AE1F04F7370042B606 /* Document.swift */; };
+		F7E630B91F04F7370042B606 /* ScriptAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7E630AF1F04F7370042B606 /* ScriptAction.swift */; };
+		F7E630BE1F04F7510042B606 /* AutoWebkit.h in Headers */ = {isa = PBXBuildFile; fileRef = F7E630BD1F04F7510042B606 /* AutoWebkit.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F7E630D01F04F89D0042B606 /* onLoad.js in Resources */ = {isa = PBXBuildFile; fileRef = F7E630B41F04F7370042B606 /* onLoad.js */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -30,25 +43,35 @@
 			remoteGlobalIDString = F7BD926B1F03D16D002A2809;
 			remoteInfo = AutoWebkit;
 		};
+		F7E630831F04F6200042B606 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F7BD92631F03D16D002A2809 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F7E630781F04F6200042B606;
+			remoteInfo = AutoWebkitMacOS;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		F7BD926C1F03D16D002A2809 /* AutoWebkit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AutoWebkit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		F7BD926F1F03D16D002A2809 /* AutoWebkit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AutoWebkit.h; sourceTree = "<group>"; };
-		F7BD92701F03D16D002A2809 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F7BD92751F03D16E002A2809 /* AutoWebkitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AutoWebkitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		F7BD927C1F03D16E002A2809 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		F7BD92871F03D18C002A2809 /* AutomationScriptController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AutomationScriptController.swift; sourceTree = "<group>"; };
-		F7BD92881F03D18C002A2809 /* AutoWebkitController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AutoWebkitController.swift; sourceTree = "<group>"; };
-		F7BD928A1F03D18C002A2809 /* AutomationScript.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AutomationScript.swift; sourceTree = "<group>"; };
-		F7BD928B1F03D18C002A2809 /* Document.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Document.swift; sourceTree = "<group>"; };
-		F7BD928C1F03D18C002A2809 /* ScriptAction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScriptAction.swift; sourceTree = "<group>"; };
-		F7BD928E1F03D18C002A2809 /* onLoad.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = onLoad.js; sourceTree = "<group>"; };
-		F7BD92971F03D285002A2809 /* AutomationScriptControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AutomationScriptControllerTests.swift; sourceTree = "<group>"; };
-		F7BD92991F03D292002A2809 /* AutomationScriptTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AutomationScriptTests.swift; sourceTree = "<group>"; };
-		F7BD929B1F03D298002A2809 /* DocumentTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DocumentTests.swift; sourceTree = "<group>"; };
-		F7BD929D1F03D29F002A2809 /* ScriptActionTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScriptActionTests.swift; sourceTree = "<group>"; };
-		F7BD929F1F03D2A9002A2809 /* AutoWebkitControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AutoWebkitControllerTests.swift; sourceTree = "<group>"; };
+		F7E630791F04F6200042B606 /* AutoWebkitMacOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AutoWebkitMacOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F7E630811F04F6200042B606 /* AutoWebkitMacOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AutoWebkitMacOSTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		F7E630AA1F04F7370042B606 /* AutomationScriptController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AutomationScriptController.swift; sourceTree = "<group>"; };
+		F7E630AB1F04F7370042B606 /* AutoWebkitController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AutoWebkitController.swift; sourceTree = "<group>"; };
+		F7E630AD1F04F7370042B606 /* AutomationScript.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AutomationScript.swift; sourceTree = "<group>"; };
+		F7E630AE1F04F7370042B606 /* Document.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Document.swift; sourceTree = "<group>"; };
+		F7E630AF1F04F7370042B606 /* ScriptAction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScriptAction.swift; sourceTree = "<group>"; };
+		F7E630B11F04F7370042B606 /* iOSInfo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = iOSInfo.plist; sourceTree = "<group>"; };
+		F7E630B21F04F7370042B606 /* MacOSInfo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = MacOSInfo.plist; sourceTree = "<group>"; };
+		F7E630B41F04F7370042B606 /* onLoad.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = onLoad.js; sourceTree = "<group>"; };
+		F7E630BD1F04F7510042B606 /* AutoWebkit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AutoWebkit.h; sourceTree = "<group>"; };
+		F7E630C21F04F76A0042B606 /* AutomationScriptControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AutomationScriptControllerTests.swift; sourceTree = "<group>"; };
+		F7E630C31F04F76A0042B606 /* AutoWebkitControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AutoWebkitControllerTests.swift; sourceTree = "<group>"; };
+		F7E630C41F04F76A0042B606 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F7E630C61F04F76A0042B606 /* AutomationScriptTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AutomationScriptTests.swift; sourceTree = "<group>"; };
+		F7E630C71F04F76A0042B606 /* DocumentTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DocumentTests.swift; sourceTree = "<group>"; };
+		F7E630C81F04F76A0042B606 /* ScriptActionTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScriptActionTests.swift; sourceTree = "<group>"; };
 		F7FD5E211F03E9FE00B8F00E /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -68,16 +91,32 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		F7E630751F04F6200042B606 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F7E6307E1F04F6200042B606 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F7E630821F04F6200042B606 /* AutoWebkitMacOS.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
 		F7BD92621F03D16D002A2809 = {
 			isa = PBXGroup;
 			children = (
-				F7BD926E1F03D16D002A2809 /* AutoWebkit */,
-				F7BD92791F03D16E002A2809 /* AutoWebkitTests */,
-				F7BD926D1F03D16D002A2809 /* Products */,
+				F7E630A81F04F7370042B606 /* Sources */,
+				F7E630B01F04F7370042B606 /* Supporting Files */,
+				F7E630BF1F04F76A0042B606 /* Tests */,
 				F7FD5E201F03E9FE00B8F00E /* Frameworks */,
+				F7BD926D1F03D16D002A2809 /* Products */,
 			);
 			sourceTree = "<group>";
 		};
@@ -86,74 +125,84 @@
 			children = (
 				F7BD926C1F03D16D002A2809 /* AutoWebkit.framework */,
 				F7BD92751F03D16E002A2809 /* AutoWebkitTests.xctest */,
+				F7E630791F04F6200042B606 /* AutoWebkitMacOS.framework */,
+				F7E630811F04F6200042B606 /* AutoWebkitMacOSTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		F7BD926E1F03D16D002A2809 /* AutoWebkit */ = {
+		F7E630A81F04F7370042B606 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				F7BD92861F03D18C002A2809 /* Controllers */,
-				F7BD92891F03D18C002A2809 /* Models */,
-				F7BD928D1F03D18C002A2809 /* Scripts */,
-				F7BD926F1F03D16D002A2809 /* AutoWebkit.h */,
-				F7BD92701F03D16D002A2809 /* Info.plist */,
+				F7E630A91F04F7370042B606 /* Controllers */,
+				F7E630AC1F04F7370042B606 /* Models */,
+				F7E630BD1F04F7510042B606 /* AutoWebkit.h */,
 			);
-			path = AutoWebkit;
+			path = Sources;
 			sourceTree = "<group>";
 		};
-		F7BD92791F03D16E002A2809 /* AutoWebkitTests */ = {
+		F7E630A91F04F7370042B606 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				F7BD92951F03D276002A2809 /* Controllers */,
-				F7BD92961F03D276002A2809 /* Models */,
-				F7BD927C1F03D16E002A2809 /* Info.plist */,
-			);
-			path = AutoWebkitTests;
-			sourceTree = "<group>";
-		};
-		F7BD92861F03D18C002A2809 /* Controllers */ = {
-			isa = PBXGroup;
-			children = (
-				F7BD92871F03D18C002A2809 /* AutomationScriptController.swift */,
-				F7BD92881F03D18C002A2809 /* AutoWebkitController.swift */,
+				F7E630AA1F04F7370042B606 /* AutomationScriptController.swift */,
+				F7E630AB1F04F7370042B606 /* AutoWebkitController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
 		};
-		F7BD92891F03D18C002A2809 /* Models */ = {
+		F7E630AC1F04F7370042B606 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				F7BD928A1F03D18C002A2809 /* AutomationScript.swift */,
-				F7BD928B1F03D18C002A2809 /* Document.swift */,
-				F7BD928C1F03D18C002A2809 /* ScriptAction.swift */,
+				F7E630AD1F04F7370042B606 /* AutomationScript.swift */,
+				F7E630AE1F04F7370042B606 /* Document.swift */,
+				F7E630AF1F04F7370042B606 /* ScriptAction.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
 		};
-		F7BD928D1F03D18C002A2809 /* Scripts */ = {
+		F7E630B01F04F7370042B606 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				F7BD928E1F03D18C002A2809 /* onLoad.js */,
+				F7E630B31F04F7370042B606 /* Scripts */,
+				F7E630B11F04F7370042B606 /* iOSInfo.plist */,
+				F7E630B21F04F7370042B606 /* MacOSInfo.plist */,
+			);
+			path = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		F7E630B31F04F7370042B606 /* Scripts */ = {
+			isa = PBXGroup;
+			children = (
+				F7E630B41F04F7370042B606 /* onLoad.js */,
 			);
 			path = Scripts;
 			sourceTree = "<group>";
 		};
-		F7BD92951F03D276002A2809 /* Controllers */ = {
+		F7E630BF1F04F76A0042B606 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
-				F7BD92971F03D285002A2809 /* AutomationScriptControllerTests.swift */,
-				F7BD929F1F03D2A9002A2809 /* AutoWebkitControllerTests.swift */,
+				F7E630C11F04F76A0042B606 /* Controllers */,
+				F7E630C51F04F76A0042B606 /* Models */,
+				F7E630C41F04F76A0042B606 /* Info.plist */,
+			);
+			path = Tests;
+			sourceTree = "<group>";
+		};
+		F7E630C11F04F76A0042B606 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				F7E630C21F04F76A0042B606 /* AutomationScriptControllerTests.swift */,
+				F7E630C31F04F76A0042B606 /* AutoWebkitControllerTests.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
 		};
-		F7BD92961F03D276002A2809 /* Models */ = {
+		F7E630C51F04F76A0042B606 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				F7BD92991F03D292002A2809 /* AutomationScriptTests.swift */,
-				F7BD929B1F03D298002A2809 /* DocumentTests.swift */,
-				F7BD929D1F03D29F002A2809 /* ScriptActionTests.swift */,
+				F7E630C61F04F76A0042B606 /* AutomationScriptTests.swift */,
+				F7E630C71F04F76A0042B606 /* DocumentTests.swift */,
+				F7E630C81F04F76A0042B606 /* ScriptActionTests.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -173,7 +222,15 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F7BD927D1F03D16E002A2809 /* AutoWebkit.h in Headers */,
+				F7E630BE1F04F7510042B606 /* AutoWebkit.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F7E630761F04F6200042B606 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F768E9981F04F97B002AE8DE /* AutoWebkit.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -216,6 +273,42 @@
 			productReference = F7BD92751F03D16E002A2809 /* AutoWebkitTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		F7E630781F04F6200042B606 /* AutoWebkitMacOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F7E6308E1F04F6200042B606 /* Build configuration list for PBXNativeTarget "AutoWebkitMacOS" */;
+			buildPhases = (
+				F7E630741F04F6200042B606 /* Sources */,
+				F7E630751F04F6200042B606 /* Frameworks */,
+				F7E630761F04F6200042B606 /* Headers */,
+				F7E630771F04F6200042B606 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = AutoWebkitMacOS;
+			productName = AutoWebkitMacOS;
+			productReference = F7E630791F04F6200042B606 /* AutoWebkitMacOS.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		F7E630801F04F6200042B606 /* AutoWebkitMacOSTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F7E6308F1F04F6200042B606 /* Build configuration list for PBXNativeTarget "AutoWebkitMacOSTests" */;
+			buildPhases = (
+				F7E6307D1F04F6200042B606 /* Sources */,
+				F7E6307E1F04F6200042B606 /* Frameworks */,
+				F7E6307F1F04F6200042B606 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				F7E630841F04F6200042B606 /* PBXTargetDependency */,
+			);
+			name = AutoWebkitMacOSTests;
+			productName = AutoWebkitMacOSTests;
+			productReference = F7E630811F04F6200042B606 /* AutoWebkitMacOSTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -237,6 +330,16 @@
 						LastSwiftMigration = 0830;
 						ProvisioningStyle = Automatic;
 					};
+					F7E630781F04F6200042B606 = {
+						CreatedOnToolsVersion = 8.3.3;
+						DevelopmentTeam = 5UY32NLNN9;
+						ProvisioningStyle = Automatic;
+					};
+					F7E630801F04F6200042B606 = {
+						CreatedOnToolsVersion = 8.3.3;
+						DevelopmentTeam = 5UY32NLNN9;
+						ProvisioningStyle = Automatic;
+					};
 				};
 			};
 			buildConfigurationList = F7BD92661F03D16D002A2809 /* Build configuration list for PBXProject "AutoWebkit" */;
@@ -253,6 +356,8 @@
 			targets = (
 				F7BD926B1F03D16D002A2809 /* AutoWebkit */,
 				F7BD92741F03D16E002A2809 /* AutoWebkitTests */,
+				F7E630781F04F6200042B606 /* AutoWebkitMacOS */,
+				F7E630801F04F6200042B606 /* AutoWebkitMacOSTests */,
 			);
 		};
 /* End PBXProject section */
@@ -262,11 +367,26 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F7BD92941F03D18C002A2809 /* onLoad.js in Resources */,
+				F7E630D01F04F89D0042B606 /* onLoad.js in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		F7BD92731F03D16E002A2809 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F7E630771F04F6200042B606 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F768E99E1F04F989002AE8DE /* onLoad.js in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F7E6307F1F04F6200042B606 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -280,11 +400,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F7BD92921F03D18C002A2809 /* Document.swift in Sources */,
-				F7BD92901F03D18C002A2809 /* AutoWebkitController.swift in Sources */,
-				F7BD92931F03D18C002A2809 /* ScriptAction.swift in Sources */,
-				F7BD92911F03D18C002A2809 /* AutomationScript.swift in Sources */,
-				F7BD928F1F03D18C002A2809 /* AutomationScriptController.swift in Sources */,
+				F7E630B91F04F7370042B606 /* ScriptAction.swift in Sources */,
+				F7E630B51F04F7370042B606 /* AutomationScriptController.swift in Sources */,
+				F7E630B81F04F7370042B606 /* Document.swift in Sources */,
+				F7E630B61F04F7370042B606 /* AutoWebkitController.swift in Sources */,
+				F7E630B71F04F7370042B606 /* AutomationScript.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -292,11 +412,35 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F7BD929E1F03D29F002A2809 /* ScriptActionTests.swift in Sources */,
-				F7BD92981F03D285002A2809 /* AutomationScriptControllerTests.swift in Sources */,
-				F7BD929C1F03D298002A2809 /* DocumentTests.swift in Sources */,
-				F7BD929A1F03D292002A2809 /* AutomationScriptTests.swift in Sources */,
-				F7BD92A01F03D2A9002A2809 /* AutoWebkitControllerTests.swift in Sources */,
+				F768E99F1F04F9E6002AE8DE /* AutomationScriptControllerTests.swift in Sources */,
+				F768E9A01F04F9E6002AE8DE /* AutoWebkitControllerTests.swift in Sources */,
+				F768E9A11F04F9E6002AE8DE /* AutomationScriptTests.swift in Sources */,
+				F768E9A21F04F9E6002AE8DE /* DocumentTests.swift in Sources */,
+				F768E9A31F04F9E6002AE8DE /* ScriptActionTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F7E630741F04F6200042B606 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F768E9991F04F985002AE8DE /* AutomationScriptController.swift in Sources */,
+				F768E99A1F04F985002AE8DE /* AutoWebkitController.swift in Sources */,
+				F768E99B1F04F985002AE8DE /* AutomationScript.swift in Sources */,
+				F768E99C1F04F985002AE8DE /* Document.swift in Sources */,
+				F768E99D1F04F985002AE8DE /* ScriptAction.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F7E6307D1F04F6200042B606 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F768E9A41F04F9EE002AE8DE /* AutomationScriptControllerTests.swift in Sources */,
+				F768E9A51F04F9EE002AE8DE /* AutoWebkitControllerTests.swift in Sources */,
+				F768E9A61F04F9EE002AE8DE /* AutomationScriptTests.swift in Sources */,
+				F768E9A71F04F9EE002AE8DE /* DocumentTests.swift in Sources */,
+				F768E9A81F04F9EE002AE8DE /* ScriptActionTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -307,6 +451,11 @@
 			isa = PBXTargetDependency;
 			target = F7BD926B1F03D16D002A2809 /* AutoWebkit */;
 			targetProxy = F7BD92771F03D16E002A2809 /* PBXContainerItemProxy */;
+		};
+		F7E630841F04F6200042B606 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F7E630781F04F6200042B606 /* AutoWebkitMacOS */;
+			targetProxy = F7E630831F04F6200042B606 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -421,7 +570,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = AutoWebkit/Info.plist;
+				INFOPLIST_FILE = "Supporting Files/iOSInfo.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.malaxeur.AutoWebkit;
@@ -440,7 +589,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = AutoWebkit/Info.plist;
+				INFOPLIST_FILE = "Supporting Files/iOSInfo.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.malaxeur.AutoWebkit;
@@ -456,7 +605,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CLANG_ENABLE_MODULES = YES;
 				DEVELOPMENT_TEAM = 5UY32NLNN9;
-				INFOPLIST_FILE = AutoWebkitTests/Info.plist;
+				INFOPLIST_FILE = Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.malaxeur.AutoWebkitTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -471,10 +620,90 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CLANG_ENABLE_MODULES = YES;
 				DEVELOPMENT_TEAM = 5UY32NLNN9;
-				INFOPLIST_FILE = AutoWebkitTests/Info.plist;
+				INFOPLIST_FILE = Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.malaxeur.AutoWebkitTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Release;
+		};
+		F7E6308A1F04F6200042B606 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = 5UY32NLNN9;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_VERSION = A;
+				INFOPLIST_FILE = "Supporting Files/MacOSInfo.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				PRODUCT_BUNDLE_IDENTIFIER = com.malaxeur.AutoWebkitMacOS;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
+			};
+			name = Debug;
+		};
+		F7E6308B1F04F6200042B606 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = 5UY32NLNN9;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_VERSION = A;
+				INFOPLIST_FILE = "Supporting Files/MacOSInfo.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				PRODUCT_BUNDLE_IDENTIFIER = com.malaxeur.AutoWebkitMacOS;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
+			};
+			name = Release;
+		};
+		F7E6308C1F04F6200042B606 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = 5UY32NLNN9;
+				INFOPLIST_FILE = Tests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				PRODUCT_BUNDLE_IDENTIFIER = com.malaxeur.AutoWebkitMacOSTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_VERSION = 3.0;
+			};
+			name = Debug;
+		};
+		F7E6308D1F04F6200042B606 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = 5UY32NLNN9;
+				INFOPLIST_FILE = Tests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				PRODUCT_BUNDLE_IDENTIFIER = com.malaxeur.AutoWebkitMacOSTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
@@ -505,6 +734,24 @@
 			buildConfigurations = (
 				F7BD92841F03D16E002A2809 /* Debug */,
 				F7BD92851F03D16E002A2809 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F7E6308E1F04F6200042B606 /* Build configuration list for PBXNativeTarget "AutoWebkitMacOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F7E6308A1F04F6200042B606 /* Debug */,
+				F7E6308B1F04F6200042B606 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F7E6308F1F04F6200042B606 /* Build configuration list for PBXNativeTarget "AutoWebkitMacOSTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F7E6308C1F04F6200042B606 /* Debug */,
+				F7E6308D1F04F6200042B606 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

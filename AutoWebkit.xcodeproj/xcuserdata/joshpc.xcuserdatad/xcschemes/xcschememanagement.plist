@@ -9,6 +9,11 @@
 			<key>orderHint</key>
 			<integer>0</integer>
 		</dict>
+		<key>AutoWebkitMacOS.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>1</integer>
+		</dict>
 		<key>AutoWebkitTests.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
@@ -23,6 +28,16 @@
 			<true/>
 		</dict>
 		<key>F7BD92741F03D16E002A2809</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>F7E630781F04F6200042B606</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>F7E630801F04F6200042B606</key>
 		<dict>
 			<key>primary</key>
 			<true/>
