@@ -10,6 +10,8 @@ Pod::Spec.new do |spec|
   spec.source = { git: "https://github.com/joshpc/AutoWebkit.git", tag: "v#{spec.version}", submodules: true }
   spec.source_files = "AutoWebkit/**/*.{h,swift}"
 
+  spec.ios.deployment_target = "10"
+  spec.osx.deployment_target = "10.12"
   spec.ios.framework  = 'UIKit'
   spec.osx.framework  = 'AppKit'
 end
