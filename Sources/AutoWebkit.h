@@ -6,7 +6,7 @@
 //  Copyright © 2017 Joshua Tessier. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
 
 //! Project version number for AutoWebkit.
 FOUNDATION_EXPORT double AutoWebkitVersionNumber;
