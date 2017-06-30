@@ -26,7 +26,7 @@ public enum ScriptAction: Scriptable {
 	case waitUntilLoaded
 	case printDebugMessage(message: String)
 	
-	var requiresLoaded: Bool {
+	public var requiresLoaded: Bool {
 		switch self {
 		case .printDebugMessage, .wait, .load, .loadHtml:
 			return false

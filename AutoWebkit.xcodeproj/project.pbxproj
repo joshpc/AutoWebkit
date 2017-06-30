@@ -14,15 +14,15 @@
 		F768E99C1F04F985002AE8DE /* Document.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7E630AE1F04F7370042B606 /* Document.swift */; };
 		F768E99D1F04F985002AE8DE /* ScriptAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7E630AF1F04F7370042B606 /* ScriptAction.swift */; };
 		F768E99E1F04F989002AE8DE /* onLoad.js in Resources */ = {isa = PBXBuildFile; fileRef = F7E630B41F04F7370042B606 /* onLoad.js */; };
-		F768E9A01F04F9E6002AE8DE /* AutoWebkitControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7E630C31F04F76A0042B606 /* AutoWebkitControllerTests.swift */; };
-		F768E9A11F04F9E6002AE8DE /* AutomationScriptTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7E630C61F04F76A0042B606 /* AutomationScriptTests.swift */; };
-		F768E9A21F04F9E6002AE8DE /* DocumentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7E630C71F04F76A0042B606 /* DocumentTests.swift */; };
-		F768E9A31F04F9E6002AE8DE /* ScriptActionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7E630C81F04F76A0042B606 /* ScriptActionTests.swift */; };
-		F768E9A51F04F9EE002AE8DE /* AutoWebkitControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7E630C31F04F76A0042B606 /* AutoWebkitControllerTests.swift */; };
-		F768E9A61F04F9EE002AE8DE /* AutomationScriptTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7E630C61F04F76A0042B606 /* AutomationScriptTests.swift */; };
-		F768E9A71F04F9EE002AE8DE /* DocumentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7E630C71F04F76A0042B606 /* DocumentTests.swift */; };
-		F768E9A81F04F9EE002AE8DE /* ScriptActionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7E630C81F04F76A0042B606 /* ScriptActionTests.swift */; };
 		F7BD92761F03D16E002A2809 /* AutoWebkit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F7BD926C1F03D16D002A2809 /* AutoWebkit.framework */; };
+		F7E123271F06286000C4CA81 /* AutoWebkitControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7E1231E1F06285B00C4CA81 /* AutoWebkitControllerTests.swift */; };
+		F7E123281F06286100C4CA81 /* AutoWebkitControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7E1231E1F06285B00C4CA81 /* AutoWebkitControllerTests.swift */; };
+		F7E123291F06286600C4CA81 /* AutomationScriptTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7E123201F06285B00C4CA81 /* AutomationScriptTests.swift */; };
+		F7E1232A1F06286600C4CA81 /* DocumentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7E123211F06285B00C4CA81 /* DocumentTests.swift */; };
+		F7E1232B1F06286600C4CA81 /* ScriptActionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7E123221F06285B00C4CA81 /* ScriptActionTests.swift */; };
+		F7E1232C1F06286700C4CA81 /* AutomationScriptTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7E123201F06285B00C4CA81 /* AutomationScriptTests.swift */; };
+		F7E1232D1F06286700C4CA81 /* DocumentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7E123211F06285B00C4CA81 /* DocumentTests.swift */; };
+		F7E1232E1F06286700C4CA81 /* ScriptActionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7E123221F06285B00C4CA81 /* ScriptActionTests.swift */; };
 		F7E630B61F04F7370042B606 /* AutoWebkitController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7E630AB1F04F7370042B606 /* AutoWebkitController.swift */; };
 		F7E630B71F04F7370042B606 /* AutomationScript.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7E630AD1F04F7370042B606 /* AutomationScript.swift */; };
 		F7E630B81F04F7370042B606 /* Document.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7E630AE1F04F7370042B606 /* Document.swift */; };
@@ -51,6 +51,10 @@
 /* Begin PBXFileReference section */
 		F7BD926C1F03D16D002A2809 /* AutoWebkit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AutoWebkit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F7BD92751F03D16E002A2809 /* AutoWebkitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AutoWebkitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		F7E1231E1F06285B00C4CA81 /* AutoWebkitControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AutoWebkitControllerTests.swift; sourceTree = "<group>"; };
+		F7E123201F06285B00C4CA81 /* AutomationScriptTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AutomationScriptTests.swift; sourceTree = "<group>"; };
+		F7E123211F06285B00C4CA81 /* DocumentTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DocumentTests.swift; sourceTree = "<group>"; };
+		F7E123221F06285B00C4CA81 /* ScriptActionTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScriptActionTests.swift; sourceTree = "<group>"; };
 		F7E630791F04F6200042B606 /* AutoWebkitMacOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AutoWebkitMacOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F7E630811F04F6200042B606 /* AutoWebkitMacOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AutoWebkitMacOSTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F7E630AB1F04F7370042B606 /* AutoWebkitController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AutoWebkitController.swift; sourceTree = "<group>"; };
@@ -61,11 +65,7 @@
 		F7E630B21F04F7370042B606 /* MacOSInfo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = MacOSInfo.plist; sourceTree = "<group>"; };
 		F7E630B41F04F7370042B606 /* onLoad.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = onLoad.js; sourceTree = "<group>"; };
 		F7E630BD1F04F7510042B606 /* AutoWebkit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AutoWebkit.h; sourceTree = "<group>"; };
-		F7E630C31F04F76A0042B606 /* AutoWebkitControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AutoWebkitControllerTests.swift; sourceTree = "<group>"; };
 		F7E630C41F04F76A0042B606 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		F7E630C61F04F76A0042B606 /* AutomationScriptTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AutomationScriptTests.swift; sourceTree = "<group>"; };
-		F7E630C71F04F76A0042B606 /* DocumentTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DocumentTests.swift; sourceTree = "<group>"; };
-		F7E630C81F04F76A0042B606 /* ScriptActionTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScriptActionTests.swift; sourceTree = "<group>"; };
 		F7FD5E211F03E9FE00B8F00E /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -125,6 +125,24 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		F7E1231D1F06285B00C4CA81 /* ControllerTests */ = {
+			isa = PBXGroup;
+			children = (
+				F7E1231E1F06285B00C4CA81 /* AutoWebkitControllerTests.swift */,
+			);
+			path = ControllerTests;
+			sourceTree = "<group>";
+		};
+		F7E1231F1F06285B00C4CA81 /* ModelTests */ = {
+			isa = PBXGroup;
+			children = (
+				F7E123201F06285B00C4CA81 /* AutomationScriptTests.swift */,
+				F7E123211F06285B00C4CA81 /* DocumentTests.swift */,
+				F7E123221F06285B00C4CA81 /* ScriptActionTests.swift */,
+			);
+			path = ModelTests;
+			sourceTree = "<group>";
+		};
 		F7E630A81F04F7370042B606 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
@@ -174,29 +192,11 @@
 		F7E630BF1F04F76A0042B606 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
-				F7E630C11F04F76A0042B606 /* Controllers */,
-				F7E630C51F04F76A0042B606 /* Models */,
+				F7E1231D1F06285B00C4CA81 /* ControllerTests */,
+				F7E1231F1F06285B00C4CA81 /* ModelTests */,
 				F7E630C41F04F76A0042B606 /* Info.plist */,
 			);
 			path = Tests;
-			sourceTree = "<group>";
-		};
-		F7E630C11F04F76A0042B606 /* Controllers */ = {
-			isa = PBXGroup;
-			children = (
-				F7E630C31F04F76A0042B606 /* AutoWebkitControllerTests.swift */,
-			);
-			path = Controllers;
-			sourceTree = "<group>";
-		};
-		F7E630C51F04F76A0042B606 /* Models */ = {
-			isa = PBXGroup;
-			children = (
-				F7E630C61F04F76A0042B606 /* AutomationScriptTests.swift */,
-				F7E630C71F04F76A0042B606 /* DocumentTests.swift */,
-				F7E630C81F04F76A0042B606 /* ScriptActionTests.swift */,
-			);
-			path = Models;
 			sourceTree = "<group>";
 		};
 		F7FD5E201F03E9FE00B8F00E /* Frameworks */ = {
@@ -403,10 +403,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F768E9A01F04F9E6002AE8DE /* AutoWebkitControllerTests.swift in Sources */,
-				F768E9A11F04F9E6002AE8DE /* AutomationScriptTests.swift in Sources */,
-				F768E9A21F04F9E6002AE8DE /* DocumentTests.swift in Sources */,
-				F768E9A31F04F9E6002AE8DE /* ScriptActionTests.swift in Sources */,
+				F7E1232B1F06286600C4CA81 /* ScriptActionTests.swift in Sources */,
+				F7E123271F06286000C4CA81 /* AutoWebkitControllerTests.swift in Sources */,
+				F7E1232A1F06286600C4CA81 /* DocumentTests.swift in Sources */,
+				F7E123291F06286600C4CA81 /* AutomationScriptTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -425,10 +425,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F768E9A51F04F9EE002AE8DE /* AutoWebkitControllerTests.swift in Sources */,
-				F768E9A61F04F9EE002AE8DE /* AutomationScriptTests.swift in Sources */,
-				F768E9A71F04F9EE002AE8DE /* DocumentTests.swift in Sources */,
-				F768E9A81F04F9EE002AE8DE /* ScriptActionTests.swift in Sources */,
+				F7E1232E1F06286700C4CA81 /* ScriptActionTests.swift in Sources */,
+				F7E123281F06286100C4CA81 /* AutoWebkitControllerTests.swift in Sources */,
+				F7E1232D1F06286700C4CA81 /* DocumentTests.swift in Sources */,
+				F7E1232C1F06286700C4CA81 /* AutomationScriptTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
