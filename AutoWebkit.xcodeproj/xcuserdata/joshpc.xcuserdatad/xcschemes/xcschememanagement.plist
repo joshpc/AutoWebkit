@@ -4,17 +4,12 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
-		<key>AutoWebkit.xcscheme</key>
+		<key>AutoWebkit-Package.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>0</integer>
 		</dict>
-		<key>AutoWebkitMacOS.xcscheme</key>
-		<dict>
-			<key>orderHint</key>
-			<integer>1</integer>
-		</dict>
-		<key>AutoWebkitTests.xcscheme</key>
+		<key>AutoWebkitPackageTests.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>1</integer>
@@ -22,22 +17,17 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>F7BD926B1F03D16D002A2809</key>
+		<key>AutoWebkit::AutoWebkit</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>F7BD92741F03D16E002A2809</key>
+		<key>AutoWebkit::AutoWebkitPackageTests::ProductTarget</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>F7E630781F04F6200042B606</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>F7E630801F04F6200042B606</key>
+		<key>AutoWebkit::AutoWebkitTests</key>
 		<dict>
 			<key>primary</key>
 			<true/>

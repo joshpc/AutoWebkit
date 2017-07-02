@@ -14,7 +14,6 @@ import AppKit
 public typealias Controller = NSViewController
 #endif
 import WebKit
-import Models
 
 public protocol AutoWebkitControllerDelegate: NSObjectProtocol {
 	///Called whenever a script is being executed. This is NOT invoked for scripts with no entries.
@@ -138,22 +137,34 @@ public class AutoWebkitController: NSObject, WKNavigationDelegate, WKUIDelegate,
 	}
 	
 	private func attachOnLoadListener() {
-		if let path = Bundle(for: AutoWebkitController.self).path(forResource: "onLoad", ofType: "js") {
-			do {
-				let javascript = try String(contentsOfFile: path, encoding: .utf8)
-				webView.evaluateJavaScript(javascript) { (result, error) in
-					if let error = error {
-						print("Failed to attach onLoad \(error)")
-					}
-					else {
-						print("Attached onLoad")
-					}
-				}
+		//HACK: Since Swift Package Manager doesn't support resources yet, we've manually loaded this into the sourcefile.
+		webView.evaluateJavaScript(AutoWebkitController.onLoadScript) { (result, error) in
+			if let error = error {
+				fatalError("Failed to attach onLoad -- \(error)")
 			}
-			catch let error {
-				print("Failed to attach onLoad -- \(error)")
+			else {
+				print("Attached onLoad")
 			}
 		}
+//		if let path = Bundle(for: AutoWebkitController.self).path(forResource: "onLoad", ofType: "js") {
+//			do {
+//				let javascript = try String(contentsOfFile: path, encoding: .utf8)
+//				webView.evaluateJavaScript(javascript) { (result, error) in
+//					if let error = error {
+//						fatalError("Failed to attach onLoad -- \(error)")
+//					}
+//					else {
+//						print("Attached onLoad")
+//					}
+//				}
+//			}
+//			catch let error {
+//				fatalError("Failed to attach onLoad -- \(error)")
+//			}
+//		}
+//		else {
+//			fatalError("Failed to attach onLoad -- no script present")
+//		}
 	}
 	
 	// MARK: WKNavigationDelegate Methods
@@ -237,5 +248,23 @@ public class AutoWebkitController: NSObject, WKNavigationDelegate, WKUIDelegate,
 	public func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
 		hasLoaded = true
 		processNextStepIfPossible()
+	}
+	
+	private static var onLoadScript: String {
+		var script = ""
+		script += "if (window.addEventListener) { \n"
+		script += "  var documentIsReady = function() { \n"
+		script += "    window.webkit.messageHandlers.bridge.postMessage(JSON.stringify({ body: \"finishedLoading\" })); \n"
+		script += "  }; \n"
+		script += "  if (document.readyState === \"complete\") { \n"
+		script += "    window.setTimeout(documentIsReady, 0); \n"
+		script += "  }"
+		script += "  else {"
+		script += "    window.addEventListener(\"load\", function() { \n"
+		script += "      window.setTimeout(documentIsReady, 0); \n"
+		script += "    }); \n"
+		script += "  } \n"
+		script += "} \n"
+		return script
 	}
 }

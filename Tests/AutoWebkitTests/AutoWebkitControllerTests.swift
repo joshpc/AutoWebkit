@@ -7,11 +7,7 @@
 //
 
 import XCTest
-#if os(iOS) || os(tvOS) || os(watchOS)
-	@testable import AutoWebkit
-#else
-	@testable import AutoWebkitMacOS
-#endif
+@testable import AutoWebkit
 
 class MockAutoWebkitControllerDelegate: NSObject, AutoWebkitControllerDelegate {
 	private let expectation: XCTestExpectation
