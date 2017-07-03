@@ -11,4 +11,8 @@
 ///
 public struct AutomationScript {
 	public let steps: [Scriptable]
+	
+	public init(steps: [Scriptable]) {
+		self.steps = steps
+	}
 }
