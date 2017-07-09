@@ -8,7 +8,9 @@
 
 import WebKit
 
-public typealias ScriptableCompletionHandler = ((Error?) -> Void)
+public typealias ScriptableCompletionHandler = (Error?) -> Void
+public typealias ScriptActionCallback = (@escaping (Void) -> Void) -> Void
+public typealias ScriptHtmlCallback = (String?, Error?, (Void) -> Void) -> Void
 
 ///
 /// Encompasses a set of actions that the automation script should do
@@ -23,7 +25,8 @@ public enum ScriptAction: Scriptable {
 	case setAttribute(name: String, value: String?, selector: String)
 	case submit(selector: String)
 	case wait(duration: DispatchTimeInterval)
-	case waitUntilLoaded
+	case waitUntilLoaded(callback: ScriptActionCallback?)
+	case getHtml(callback: ScriptHtmlCallback)
 	case printDebugMessage(message: String)
 	
 	public var requiresLoaded: Bool {
@@ -43,9 +46,11 @@ public enum ScriptAction: Scriptable {
 			loadHtmlString(html, baseURL: baseURL, with: webView, completion: completion)
 		case .wait(let duration):
 			waitFor(duration, completion: completion)
-		case .waitUntilLoaded:
+		case .waitUntilLoaded(let callback):
 			//Since the `waitUntilLoaded` task `requiresLoaded`, it won't get run. This is effectively a blocker step.
-			completion(nil)
+			waitForLoadingCompletion(callback: callback, completion: completion)
+		case .getHtml(let callback):
+			fetchHtml(with: webView, callback: callback, completion: completion)
 		case .submit(let selector):
 			submitForm(matching: selector, with: webView, completion: completion)
 		case .setAttribute(let name, let value, let selector):
@@ -69,6 +74,25 @@ public enum ScriptAction: Scriptable {
 		DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + duration) {
 			completion(nil)
 		}
+	}
+	
+	private func waitForLoadingCompletion(callback: ScriptActionCallback?, completion: @escaping ScriptableCompletionHandler) {
+		if let callback = callback {
+			callback() {
+				completion(nil)
+			}
+		}
+		else {
+			completion(nil)
+		}
+	}
+	
+	private func fetchHtml(with webView: WKWebView, callback: @escaping ScriptHtmlCallback, completion: @escaping ScriptableCompletionHandler) {
+		webView.evaluateJavaScript("document.documentElement.outerHTML.toString()", completionHandler: { (html: Any?, error: Error?) in
+			callback(html as? String, error) {
+				completion(error)
+			}
+		})
 	}
 	
 	private func printMessage(_ message: String, completion: ScriptableCompletionHandler) {

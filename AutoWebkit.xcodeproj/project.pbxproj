@@ -23,7 +23,7 @@
 /* Begin PBXBuildFile section */
 		OBJ_103 /* AutoWebkitController.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_9 /* AutoWebkitController.swift */; };
 		OBJ_104 /* AutomationScript.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_10 /* AutomationScript.swift */; };
-		OBJ_105 /* Document.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_11 /* Document.swift */; };
+		OBJ_105 /* HTMLDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_11 /* HTMLDocument.swift */; };
 		OBJ_106 /* ScriptAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_12 /* ScriptAction.swift */; };
 		OBJ_108 /* SwiftSoup.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "SwiftSoup::SwiftSoup::Product" /* SwiftSoup.framework */; };
 		OBJ_114 /* ArrayExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_22 /* ArrayExt.swift */; };
@@ -126,7 +126,7 @@
 		"AutoWebkit::AutoWebkit::Product" /* AutoWebkit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AutoWebkit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		"AutoWebkit::AutoWebkitTests::Product" /* AutoWebkitTests.xctest */ = {isa = PBXFileReference; lastKnownFileType = file; path = AutoWebkitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		OBJ_10 /* AutomationScript.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutomationScript.swift; sourceTree = "<group>"; };
-		OBJ_11 /* Document.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Document.swift; sourceTree = "<group>"; };
+		OBJ_11 /* HTMLDocument.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTMLDocument.swift; sourceTree = "<group>"; };
 		OBJ_12 /* ScriptAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScriptAction.swift; sourceTree = "<group>"; };
 		OBJ_15 /* AutoWebkitControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoWebkitControllerTests.swift; sourceTree = "<group>"; };
 		OBJ_16 /* AutomationScriptTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutomationScriptTests.swift; sourceTree = "<group>"; };
@@ -316,7 +316,7 @@
 			path = ".build/checkouts/SwiftSoup.git-4934909956721398735/Sources";
 			sourceTree = SOURCE_ROOT;
 		};
-		OBJ_5 /*  */ = {
+		OBJ_5 = {
 			isa = PBXGroup;
 			children = (
 				OBJ_6 /* Package.swift */,
@@ -326,7 +326,6 @@
 				OBJ_20 /* Dependencies */,
 				OBJ_79 /* Products */,
 			);
-			name = "";
 			sourceTree = "<group>";
 		};
 		OBJ_7 /* Sources */ = {
@@ -352,7 +351,7 @@
 			children = (
 				OBJ_9 /* AutoWebkitController.swift */,
 				OBJ_10 /* AutomationScript.swift */,
-				OBJ_11 /* Document.swift */,
+				OBJ_11 /* HTMLDocument.swift */,
 				OBJ_12 /* ScriptAction.swift */,
 			);
 			name = AutoWebkit;
@@ -428,7 +427,7 @@
 			knownRegions = (
 				en,
 			);
-			mainGroup = OBJ_5 /*  */;
+			mainGroup = OBJ_5;
 			productRefGroup = OBJ_79 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -448,7 +447,7 @@
 			files = (
 				OBJ_103 /* AutoWebkitController.swift in Sources */,
 				OBJ_104 /* AutomationScript.swift in Sources */,
-				OBJ_105 /* Document.swift in Sources */,
+				OBJ_105 /* HTMLDocument.swift in Sources */,
 				OBJ_106 /* ScriptAction.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
