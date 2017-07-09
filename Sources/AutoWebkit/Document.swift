@@ -12,5 +12,11 @@ import Foundation
 /// A simple class representing a web document
 ///
 public class Document: NSObject {
-
+	init(html: String) {
+		
+	}
+	
+	private func parse(html: String) {
+		
+	}
 }

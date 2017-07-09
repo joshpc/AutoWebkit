@@ -14,6 +14,7 @@ import AppKit
 public typealias Controller = NSViewController
 #endif
 import WebKit
+import Kanna
 
 public protocol AutoWebkitControllerDelegate: NSObjectProtocol {
 	///Called whenever a script is being executed. This is NOT invoked for scripts with no entries.
@@ -30,8 +31,11 @@ public protocol AutoWebkitControllerDelegate: NSObjectProtocol {
 }
 
 public class AutoWebkitController: NSObject, WKNavigationDelegate, WKUIDelegate, WKScriptMessageHandler {
-	private let configuration: WKWebViewConfiguration
+#if os(iOS) || os(tvOS) || os(watchOS)
+	private let superview = UIView()
+#elseif os(OSX)
 	private let superview = NSView()
+#endif
 	private let webView: WKWebView
 	
 	private var navigations = Set<WKNavigation>()
@@ -57,18 +61,18 @@ public class AutoWebkitController: NSObject, WKNavigationDelegate, WKUIDelegate,
 		return stepIndex + 1 >= script?.steps.count ?? 0
 	}
 	
-	public required init(webView: WKWebView? = nil) {
-		let configuration = WKWebViewConfiguration()
-		self.webView = webView ?? WKWebView(frame: .zero, configuration: configuration)
-		self.configuration = configuration
+	public required init(providedWebView: WKWebView? = nil) {
+		self.webView = providedWebView ?? WKWebView(frame: .zero, configuration: WKWebViewConfiguration())
 		
 		super.init()
 		
-		configuration.userContentController.add(self, name: "bridge")
+		self.webView.configuration.userContentController.add(self, name: "bridge")
 		self.webView.uiDelegate = self
 		self.webView.navigationDelegate = self
 		
-		superview.addSubview(self.webView)
+		if providedWebView == nil {
+			superview.addSubview(self.webView)
+		}
 	}
 
 	open func execute(script: AutomationScript) {
