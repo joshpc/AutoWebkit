@@ -20,6 +20,20 @@
                ReferencedContainer = "container:AutoWebkit.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "SwiftSoup::SwiftSoup"
+               BuildableName = "SwiftSoup.framework"
+               BlueprintName = "SwiftSoup"
+               ReferencedContainer = "container:AutoWebkit.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
