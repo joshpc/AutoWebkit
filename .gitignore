@@ -8,6 +8,8 @@
 build/
 DerivedData/
 
+Package.resolved
+
 ## Various settings
 *.pbxuser
 !default.pbxuser
