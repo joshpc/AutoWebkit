@@ -91,8 +91,33 @@ class ScriptActionTests: XCTestCase {
 		XCTAssertEqual("{ var element = document.querySelector(\"[id=\"red\"]\");element.setAttribute(\'banana\', \'dinosaur\'); }", webView.attemptedJavascript)
 	}
 	
+	func testSetAttributeWithContextAction() {
+		let action = DomAction.setAttributeWithContext(name: "banana", contextKey: "dinosaur", selector: "[id=\"red\"]")
+		let context = [ "dinosaur" : "coconut" ]
+		
+		let requiresLoading = action.performAction(with: webView, context: context) { (error) in
+			self.completedExpectation.fulfill()
+		}
+		
+		XCTAssertFalse(requiresLoading)
+		XCTAssertEqual(.completed, XCTWaiter.wait(for: [completedExpectation], timeout: 1.0))
+		XCTAssertEqual("{ var element = document.querySelector(\"[id=\"red\"]\");element.setAttribute(\'banana\', \'coconut\'); }", webView.attemptedJavascript)
+	}
+	
 	func testRemoveAttributeAction() {
 		let action = DomAction.setAttribute(name: "banana", value: nil, selector: "[id=\"red\"]")
+		
+		let requiresLoading = action.performAction(with: webView, context: context) { (error) in
+			self.completedExpectation.fulfill()
+		}
+		
+		XCTAssertFalse(requiresLoading)
+		XCTAssertEqual(.completed, XCTWaiter.wait(for: [completedExpectation], timeout: 1.0))
+		XCTAssertEqual("{ var element = document.querySelector(\"[id=\"red\"]\");element.removeAttribute(\'banana\'); }", webView.attemptedJavascript)
+	}
+	
+	func testRemoveAttributeWithContextAction() {
+		let action = DomAction.setAttributeWithContext(name: "banana", contextKey: "not present", selector: "[id=\"red\"]")
 		
 		let requiresLoading = action.performAction(with: webView, context: context) { (error) in
 			self.completedExpectation.fulfill()

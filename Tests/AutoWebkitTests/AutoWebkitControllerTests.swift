@@ -169,7 +169,7 @@ class AutoWebkitControllerTests: XCTestCase {
 		]
 		
 		controller.execute(script: AutomationScript(steps: steps))
-		XCTAssertEqual(.completed, XCTWaiter.wait(for: [completedExpectation], timeout: 1.0))
+		XCTAssertEqual(.completed, XCTWaiter.wait(for: [completedExpectation], timeout: 3.0))
 		XCTAssertEqual("apple", finalContext["banana"])
 		XCTAssertEqual("alive", finalContext["dinosaur"])
 		XCTAssertNil(finalContext["not there"])

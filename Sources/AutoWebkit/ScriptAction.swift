@@ -109,6 +109,7 @@ public enum WaitAction: Scriptable {
 ///
 public enum DomAction: Scriptable {
 	case setAttribute(name: String, value: String?, selector: String)
+	case setAttributeWithContext(name: String, contextKey: String, selector: String)
 	case submit(selector: String, shouldBlock: Bool)
 	case getHtml(callback: ScriptHtmlCallback)
 	case getHtmlByElement(selector: String, callback: ScriptHtmlCallback)
@@ -122,6 +123,8 @@ public enum DomAction: Scriptable {
 		switch self {
 		case .setAttribute(let name, let value, let selector):
 			updateAttribute(name, value: value, withTagMatching: selector, with: webView, context: context, completion: completion)
+		case .setAttributeWithContext(let name, let contextKey, let selector):
+			updateAttribute(name, value: context[contextKey], withTagMatching: selector, with: webView, context: context, completion: completion)
 		case .submit(let selector, let shouldBlock):
 			requiresLoading = shouldBlock
 			submitForm(matching: selector, with: webView, context: context, completion: completion)
