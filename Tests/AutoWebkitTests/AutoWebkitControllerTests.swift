@@ -57,8 +57,8 @@ class AutoWebkitControllerTests: XCTestCase {
 	// MARK: Testing Delegate Calls
 		
 	func testDelegateInvokes() {
-		let steps: [ScriptAction] = [
-			.printDebugMessage(message: "banana")
+		let steps: [Scriptable] = [
+			DebugAction.printMessage(message: "banana")
 		]
 		
 		controller.execute(script: AutomationScript(steps: steps))
@@ -71,9 +71,9 @@ class AutoWebkitControllerTests: XCTestCase {
 	}
 	
 	func testMultipleActions() {
-		let steps: [ScriptAction] = [
-			.printDebugMessage(message: "banana"),
-			.printDebugMessage(message: "dinosaur")
+		let steps: [Scriptable] = [
+			DebugAction.printMessage(message: "banana"),
+			DebugAction.printMessage(message: "dinosaur")
 		]
 		controller.execute(script: AutomationScript(steps: steps))
 		XCTAssertEqual(.completed, XCTWaiter.wait(for: [completedExpectation], timeout: 1.0))
@@ -84,7 +84,7 @@ class AutoWebkitControllerTests: XCTestCase {
 	}
 	
 	func testEmptyScript() {
-		let steps: [ScriptAction] = []
+		let steps: [Scriptable] = []
 		
 		controller.execute(script: AutomationScript(steps: steps))
 		
@@ -97,9 +97,9 @@ class AutoWebkitControllerTests: XCTestCase {
 	
 	func testLoadingHtml() {
 		let loadedHtml = "<html><head></head><body><p>dinosaur</p></body></html>"
-		let steps: [ScriptAction] = [
-			.loadHtml(html: loadedHtml, baseURL: nil),
-			.waitUntilLoaded,
+		let steps: [Scriptable] = [
+			LoadAction.loadHtml(html: loadedHtml, baseURL: nil),
+			WaitAction.waitUntilLoaded(callback: nil),
 		]
 		
 		controller.execute(script: AutomationScript(steps: steps))
@@ -119,9 +119,9 @@ class AutoWebkitControllerTests: XCTestCase {
 		let loadedHtml = "<html><head></head><body><form><input type=\"text\" id=\"banana\"></form></body></html>"
 		let expectedHtml = "<html><head></head><body><form><input type=\"text\" id=\"banana\" value=\"dinosaur\"></form></body></html>"
 		
-		let steps: [ScriptAction] = [
-			.loadHtml(html: loadedHtml, baseURL: nil),
-			.setAttribute(name: "value", value: "dinosaur", selector: "[id='banana']"),
+		let steps: [Scriptable] = [
+			LoadAction.loadHtml(html: loadedHtml, baseURL: nil),
+			DomAction.setAttribute(name: "value", value: "dinosaur", selector: "[id='banana']"),
 		]
 		
 		controller.execute(script: AutomationScript(steps: steps))

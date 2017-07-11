@@ -36,34 +36,39 @@ class MockWebview: WKWebView {
 class ScriptActionTests: XCTestCase {
 	var webView: MockWebview!
 	var completedExpectation: XCTestExpectation!
+	var context: [String : String]!
 	
 	override func setUp() {
 		super.setUp()
 		
+		context = [:]
 		webView = MockWebview()
 		completedExpectation = XCTestExpectation()
 	}
 	
 	func testLoadAction() {
-		let action = ScriptAction.load(url: URL(string: "http://www.banana.com/")!)
+		let action = LoadAction.load(url: URL(string: "http://www.banana.com/")!)
 		
-		action.performAction(with: webView) { (error) in
+		let requiresLoading = action.performAction(with: webView, context: context) { (error) in
 			self.completedExpectation.fulfill()
 		}
 		
+		XCTAssertTrue(requiresLoading)
 		XCTAssertEqual(.completed, XCTWaiter.wait(for: [completedExpectation], timeout: 1.0))
+		
 		XCTAssertEqual("http://www.banana.com/", webView.attemptedUrl)
 	}
 
 	func testLoadHtmlString() {
 		let html = "<html><body>banana</body></html>"
 		let url = URL(string: "http://www.banana.com/")!
-		let action = ScriptAction.loadHtml(html: html, baseURL: url)
+		let action = LoadAction.loadHtml(html: html, baseURL: url)
 		
-		action.performAction(with: webView) { (error) in
+		let requiresLoading = action.performAction(with: webView, context: context) { (error) in
 			self.completedExpectation.fulfill()
 		}
 		
+		XCTAssertTrue(requiresLoading)
 		XCTAssertEqual(.completed, XCTWaiter.wait(for: [completedExpectation], timeout: 1.0))
 		
 		XCTAssertEqual(webView.attemptedBody, html)
@@ -71,59 +76,73 @@ class ScriptActionTests: XCTestCase {
 	}
 	
 	func testSetAttributeAction() {
-		let action = ScriptAction.setAttribute(name: "banana", value: "dinosaur", selector: "[id=\"red\"]")
+		let action = DomAction.setAttribute(name: "banana", value: "dinosaur", selector: "[id=\"red\"]")
 		
-		action.performAction(with: webView) { (error) in
+		let requiresLoading = action.performAction(with: webView, context: context) { (error) in
 			self.completedExpectation.fulfill()
 		}
 		
+		XCTAssertFalse(requiresLoading)
 		XCTAssertEqual(.completed, XCTWaiter.wait(for: [completedExpectation], timeout: 1.0))
 		XCTAssertEqual("{ var element = document.querySelector(\"[id=\"red\"]\");element.setAttribute(\'banana\', \'dinosaur\'); }", webView.attemptedJavascript)
 	}
 	
 	func testRemoveAttributeAction() {
-		let action = ScriptAction.setAttribute(name: "banana", value: nil, selector: "[id=\"red\"]")
+		let action = DomAction.setAttribute(name: "banana", value: nil, selector: "[id=\"red\"]")
 		
-		action.performAction(with: webView) { (error) in
+		let requiresLoading = action.performAction(with: webView, context: context) { (error) in
 			self.completedExpectation.fulfill()
 		}
 		
+		XCTAssertFalse(requiresLoading)
 		XCTAssertEqual(.completed, XCTWaiter.wait(for: [completedExpectation], timeout: 1.0))
 		XCTAssertEqual("{ var element = document.querySelector(\"[id=\"red\"]\");element.removeAttribute(\'banana\'); }", webView.attemptedJavascript)
 	}
 	
 	func testSubmitAction() {
-		let action = ScriptAction.submit(selector: "form[name=\"banana\"]")
+		var action = DomAction.submit(selector: "form[name=\"banana\"]", shouldBlock: true)
 		
-		action.performAction(with: webView) { (error) in
+		var requiresLoading = action.performAction(with: webView, context: context) { (error) in
 			self.completedExpectation.fulfill()
 		}
 		
+		XCTAssertTrue(requiresLoading)
+		XCTAssertEqual(.completed, XCTWaiter.wait(for: [completedExpectation], timeout: 1.0))
+		XCTAssertEqual("{ var element = document.querySelector(\"form[name=\"banana\"]\");element.submit(); }", webView.attemptedJavascript)
+		
+		action = DomAction.submit(selector: "form[name=\"banana\"]", shouldBlock: false)
+		
+		requiresLoading = action.performAction(with: webView, context: context) { (error) in
+			self.completedExpectation.fulfill()
+		}
+		
+		XCTAssertFalse(requiresLoading)
 		XCTAssertEqual(.completed, XCTWaiter.wait(for: [completedExpectation], timeout: 1.0))
 		XCTAssertEqual("{ var element = document.querySelector(\"form[name=\"banana\"]\");element.submit(); }", webView.attemptedJavascript)
 	}
 	
 	func testWaitAction() {
-		let action = ScriptAction.wait(duration: DispatchTimeInterval.seconds(2))
+		let action = WaitAction.wait(duration: DispatchTimeInterval.seconds(2))
 		
 		let startTime = Date()
-		action.performAction(with: webView) { (error) in
+		let requiresLoading = action.performAction(with: webView, context: context) { (error) in
 			self.completedExpectation.fulfill()
 		}
 		
+		XCTAssertFalse(requiresLoading)
 		XCTAssertEqual(.completed, XCTWaiter.wait(for: [completedExpectation], timeout: 3.0))
 		let duration = abs(startTime.timeIntervalSinceNow)
 		XCTAssertTrue(duration <= 2.15 && duration >= 1.85)
 	}
 	
 	func testPrintDebugMessage() {
-		let action = ScriptAction.printDebugMessage(message: "Test")
+		let action = DebugAction.printMessage(message: "Test")
 		
 		//We're only testing to ensure that it calls the completion handler
-		action.performAction(with: webView) { (error) in
+		let requiresLoading = action.performAction(with: webView, context: context) { (error) in
 			self.completedExpectation.fulfill()
 		}
-		
+		XCTAssertFalse(requiresLoading)
 		XCTAssertEqual(.completed, XCTWaiter.wait(for: [completedExpectation], timeout: 1.0))
 	}
 }

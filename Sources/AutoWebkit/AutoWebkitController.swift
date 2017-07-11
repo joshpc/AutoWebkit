@@ -43,6 +43,7 @@ public class AutoWebkitController: NSObject, WKNavigationDelegate, WKUIDelegate,
 	private var hasLoaded: Bool = false
 	
 	private var script: AutomationScript?
+	private var context: [String : String] = [:]
 	
 	private var attachmentHistory = [WKNavigation: Bool]()
 	
@@ -74,8 +75,9 @@ public class AutoWebkitController: NSObject, WKNavigationDelegate, WKUIDelegate,
 		}
 	}
 
-	open func execute(script: AutomationScript) {
+	open func execute(script: AutomationScript, with context: [String: String] = [:]) {
 		self.script = script
+		self.context = context
 		
 		processNextStepIfPossible()
 	}
@@ -96,9 +98,7 @@ public class AutoWebkitController: NSObject, WKNavigationDelegate, WKUIDelegate,
 		guard let script = script, nextStepIndex < script.steps.count else { return }
 		
 		let step = script.steps[nextStepIndex]
-		if let step = step as? ScriptAction {
-			guard step.requiresLoaded == false || (step.requiresLoaded && hasLoaded) else { return }
-		}
+		guard step.requiresLoaded == false || (step.requiresLoaded && hasLoaded) else { return }
 		
 		process(script: script, step: step, at: nextStepIndex)
 	}
@@ -116,12 +116,21 @@ public class AutoWebkitController: NSObject, WKNavigationDelegate, WKUIDelegate,
 		delegate?.controller(self, willExecuteStep: step)
 		isRunningStep = true
 		
-		step.performAction(with: webView) { [weak self] (error) in
-			if let error = error {
-				print("Error while performing step: \(step) with \(error)")
-			}
+		let shouldBlock = step.performAction(with: webView, context: context) { [weak self] (newContext, error) in
+			self?.context = newContext
 			
-			self?.finish(step)
+			DispatchQueue.main.async {
+				if let error = error {
+					print("Error while performing step: \(step) with \(error)")
+				}
+				
+				self?.finish(step)
+			}
+		}
+		
+		//There are events that will occur afterwards that will (eventually) trigger a load
+		if shouldBlock {
+			hasLoaded = false
 		}
 	}
 	
@@ -140,6 +149,8 @@ public class AutoWebkitController: NSObject, WKNavigationDelegate, WKUIDelegate,
 	}
 	
 	private func attachOnLoadListener() {
+		hasLoaded = false
+		
 		//HACK: Since Swift Package Manager doesn't support resources yet, we've manually loaded this into the sourcefile.
 		webView.evaluateJavaScript(AutoWebkitController.onLoadScript) { (result, error) in
 			if let error = error {
