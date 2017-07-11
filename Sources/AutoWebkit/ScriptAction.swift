@@ -9,8 +9,8 @@
 import WebKit
 
 public typealias ScriptableCompletionHandler = (Error?) -> Void
-public typealias ScriptActionCallback = (@escaping (Void) -> Void) -> Void
-public typealias ScriptHtmlCallback = (String?, Error?, (Void) -> Void) -> Void
+public typealias ScriptActionCallback = (@escaping () -> Void) -> Void
+public typealias ScriptHtmlCallback = (String?, Error?, () -> Void) -> Void
 
 ///
 /// Encompasses a set of actions that the automation script should do

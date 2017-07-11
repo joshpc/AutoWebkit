@@ -14,7 +14,6 @@ import AppKit
 public typealias Controller = NSViewController
 #endif
 import WebKit
-import SwiftSoup
 
 public protocol AutoWebkitControllerDelegate: NSObjectProtocol {
 	///Called whenever a script is being executed. This is NOT invoked for scripts with no entries.
