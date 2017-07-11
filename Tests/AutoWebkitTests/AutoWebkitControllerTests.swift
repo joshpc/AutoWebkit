@@ -136,4 +136,42 @@ class AutoWebkitControllerTests: XCTestCase {
 		
 		XCTAssertEqual(.completed, XCTWaiter.wait(for: [fetchExpectation], timeout: 1.0))
 	}
+	
+	func testContextIsPassedBetweenElements() {
+		let loadedHtml = "<html><head></head><body><form><input type=\"text\" id=\"banana\"></form></body></html>"
+		
+		var finalContext: [String : String] = [:]
+		let steps: [Scriptable] = [
+			LoadAction.loadHtml(html: loadedHtml, baseURL: nil),
+			DomAction.getHtmlByElement(selector: "input[id='banana']") { (html, context, error, completion) in
+				var newContext = context
+				newContext["not there"] = "fake value"
+				completion(newContext, error)
+			},
+			DomAction.getHtmlByElement(selector: "input[id='banana']") { (html, context, error, completion) in
+				//Drop the previous value
+				completion([:], error)
+			},
+			DomAction.getHtmlByElement(selector: "input[id='banana']") { (html, context, error, completion) in
+				var newContext = context
+				newContext["banana"] = "apple"
+				completion(newContext, error)
+			},
+			DomAction.getHtmlByElement(selector: "input[id='banana']") { (html, context, error, completion) in
+				var newContext = context
+				newContext["dinosaur"] = "alive"
+				completion(newContext, error)
+			},
+			DomAction.getHtmlByElement(selector: "input[id='banana']") { (html, context, error, completion) in
+				finalContext = context
+				completion(finalContext, error)
+			},
+		]
+		
+		controller.execute(script: AutomationScript(steps: steps))
+		XCTAssertEqual(.completed, XCTWaiter.wait(for: [completedExpectation], timeout: 1.0))
+		XCTAssertEqual("apple", finalContext["banana"])
+		XCTAssertEqual("alive", finalContext["dinosaur"])
+		XCTAssertNil(finalContext["not there"])
+	}
 }
