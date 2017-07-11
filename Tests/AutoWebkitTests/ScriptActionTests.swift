@@ -46,6 +46,8 @@ class ScriptActionTests: XCTestCase {
 		completedExpectation = XCTestExpectation()
 	}
 	
+	// MARK: LoadActions
+	
 	func testLoadAction() {
 		let action = LoadAction.load(url: URL(string: "http://www.banana.com/")!)
 		
@@ -74,6 +76,8 @@ class ScriptActionTests: XCTestCase {
 		XCTAssertEqual(webView.attemptedBody, html)
 		XCTAssertEqual(webView.attemptedBaseURL, url)
 	}
+	
+	// MARK: DomActions
 	
 	func testSetAttributeAction() {
 		let action = DomAction.setAttribute(name: "banana", value: "dinosaur", selector: "[id=\"red\"]")
@@ -121,6 +125,36 @@ class ScriptActionTests: XCTestCase {
 		XCTAssertEqual("{ var element = document.querySelector(\"form[name=\"banana\"]\");element.submit(); }", webView.attemptedJavascript)
 	}
 	
+	func testGetHtmlAction() {
+		let action = DomAction.getHtml { html, context, error, completion in
+			completion(context, error)
+		}
+		
+		let requiresLoading = action.performAction(with: webView, context: context) { (error) in
+			self.completedExpectation.fulfill()
+		}
+		
+		XCTAssertFalse(requiresLoading)
+		XCTAssertEqual(.completed, XCTWaiter.wait(for: [completedExpectation], timeout: 1.0))
+		XCTAssertEqual("document.documentElement.outerHTML.toString()", webView.attemptedJavascript)
+	}
+	
+	func testGetHtmlElementAction() {
+		let action = DomAction.getHtmlByElement(selector: "form[name=\"banana\"]") { html, context, error, completion in
+			completion(context, error)
+		}
+		
+		let requiresLoading = action.performAction(with: webView, context: context) { (error) in
+			self.completedExpectation.fulfill()
+		}
+		
+		XCTAssertFalse(requiresLoading)
+		XCTAssertEqual(.completed, XCTWaiter.wait(for: [completedExpectation], timeout: 1.0))
+		XCTAssertEqual("{ var element = document.querySelector(\"form[name=\"banana\"]\");element.innerHTML.toString(); }", webView.attemptedJavascript)
+	}
+	
+	// MARK: WaitActions
+	
 	func testWaitAction() {
 		let action = WaitAction.wait(duration: DispatchTimeInterval.seconds(2))
 		
@@ -134,6 +168,21 @@ class ScriptActionTests: XCTestCase {
 		let duration = abs(startTime.timeIntervalSinceNow)
 		XCTAssertTrue(duration <= 2.15 && duration >= 1.85)
 	}
+	
+	func testWaitForLoaded() {
+		let action = WaitAction.waitUntilLoaded { completion in
+			completion()
+		}
+		
+		let requiresLoading = action.performAction(with: webView, context: context) { (error) in
+			self.completedExpectation.fulfill()
+		}
+		
+		XCTAssertFalse(requiresLoading)
+		XCTAssertEqual(.completed, XCTWaiter.wait(for: [completedExpectation], timeout: 1.0))
+	}
+	
+	// MARK: DebugActions
 	
 	func testPrintDebugMessage() {
 		let action = DebugAction.printMessage(message: "Test")
