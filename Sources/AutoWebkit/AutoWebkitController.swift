@@ -37,32 +37,30 @@ public class AutoWebkitController: NSObject, WKNavigationDelegate, WKUIDelegate,
 #endif
 	private let webView: WKWebView
 	
-	private var navigations = Set<WKNavigation>()
+	private var context: ScriptContext
+	private var originalScript: AutomationScript?
+	private var steps: [Scriptable]
 	private var stepIndex = -1
-	private var isRunningStep = false
-	private var hasLoaded: Bool = false
-	
-	private var script: AutomationScript?
-	private var context: [String : String] = [:]
-	
-	private var attachmentHistory = [WKNavigation: Bool]()
-	
-	public weak var delegate: AutoWebkitControllerDelegate?
-	
+
 	private var isLoading: Bool {
-		return navigations.isEmpty == false
+		return context.navigations.isEmpty == false
 	}
 	
-	public var canProcessScript: Bool {
-		return isLoading == false && isRunningStep == false
+	private var canProcessScript: Bool {
+		return context.isLoading == false && context.isRunningStep == false
 	}
 	
 	public var isFinished: Bool {
-		return stepIndex + 1 >= script?.steps.count ?? 0
+		return stepIndex + 1 >= steps.count ?? 0
 	}
+	
+	public weak var delegate: AutoWebkitControllerDelegate?
 	
 	public required init(providedWebView: WKWebView? = nil) {
 		self.webView = providedWebView ?? WKWebView(frame: .zero, configuration: WKWebViewConfiguration())
+		
+		steps = []
+		context = ScriptContext()
 		
 		super.init()
 		
@@ -75,9 +73,10 @@ public class AutoWebkitController: NSObject, WKNavigationDelegate, WKUIDelegate,
 		}
 	}
 
-	open func execute(script: AutomationScript, with context: [String: String] = [:]) {
-		self.script = script
-		self.context = context
+	open func execute(script: AutomationScript, with context: ScriptContext? = nil) {
+		originalScript = script
+		self.steps = script.steps
+		self.context = context ?? ScriptContext()
 		
 		processNextStepIfPossible()
 	}
@@ -95,16 +94,16 @@ public class AutoWebkitController: NSObject, WKNavigationDelegate, WKUIDelegate,
 	private func processNextStepIfPossible() {
 		let nextStepIndex = stepIndex + 1
 		guard isFinished == false && canProcessScript else { return }
-		guard let script = script, nextStepIndex < script.steps.count else { return }
+		guard nextStepIndex < steps.count else { return }
 		
-		let step = script.steps[nextStepIndex]
-		guard step.requiresLoaded == false || (step.requiresLoaded && hasLoaded) else { return }
+		let step = steps[nextStepIndex]
+		guard step.requiresLoaded == false || (step.requiresLoaded && context.hasLoaded) else { return }
 		
-		process(script: script, step: step, at: nextStepIndex)
+		process(step: step, at: nextStepIndex)
 	}
 	
-	private func process(script: AutomationScript, step: Scriptable, at index: Int) {
-		if index == 0 {
+	private func process(step: Scriptable, at index: Int) {
+		if let script = originalScript, index == 0 {
 			delegate?.controller(self, willBeginExecuting: script)
 		}
 		
@@ -114,12 +113,16 @@ public class AutoWebkitController: NSObject, WKNavigationDelegate, WKUIDelegate,
 	
 	private func execute(_ step: Scriptable) {
 		delegate?.controller(self, willExecuteStep: step)
-		isRunningStep = true
+		context.isRunningStep = true
 		
-		let shouldBlock = step.performAction(with: webView, context: context) { [weak self] (newContext, error) in
+		step.performAction(with: webView, context: context) { [weak self] (newContext, error, nextSteps) in
 			self?.context = newContext
 			
 			DispatchQueue.main.async {
+				if let nextSteps = nextSteps, let weakSelf = self {
+					weakSelf.steps.insert(contentsOf: nextSteps, at: weakSelf.stepIndex + 1)
+				}
+				
 				if let error = error {
 					print("Error while performing step: \(step) with \(error)")
 				}
@@ -127,21 +130,16 @@ public class AutoWebkitController: NSObject, WKNavigationDelegate, WKUIDelegate,
 				self?.finish(step)
 			}
 		}
-		
-		//There are events that will occur afterwards that will (eventually) trigger a load
-		if shouldBlock {
-			hasLoaded = false
-		}
 	}
 	
 	private func finish(_ step: Scriptable) {
-		isRunningStep = false
+		context.isRunningStep = false
 		delegate?.controller(self, didCompleteStep: step)
 
-		guard let script = script else { return }
-		
 		if isFinished {
-			delegate?.controller(self, didFinishExecuting: script)
+			if let script = originalScript {
+				delegate?.controller(self, didFinishExecuting: script)
+			}
 		}
 		else {
 			processNextStepIfPossible()
@@ -149,15 +147,12 @@ public class AutoWebkitController: NSObject, WKNavigationDelegate, WKUIDelegate,
 	}
 	
 	private func attachOnLoadListener() {
-		hasLoaded = false
+		context.hasLoaded = false
 		
 		//HACK: Since Swift Package Manager doesn't support resources yet, we've manually loaded this into the sourcefile.
 		webView.evaluateJavaScript(AutoWebkitController.onLoadScript) { (result, error) in
 			if let error = error {
 				fatalError("Failed to attach onLoad -- \(error)")
-			}
-			else {
-				print("Attached onLoad")
 			}
 		}
 //		if let path = Bundle(for: AutoWebkitController.self).path(forResource: "onLoad", ofType: "js") {
@@ -184,29 +179,23 @@ public class AutoWebkitController: NSObject, WKNavigationDelegate, WKUIDelegate,
 	// MARK: WKNavigationDelegate Methods
 	
 	public func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
-		print("\t navigationAction: \(navigationAction) - \(navigationAction.navigationType)")
 		decisionHandler(.allow)
 	}
 	
 	public func webView(_ webView: WKWebView, decidePolicyFor navigationResponse: WKNavigationResponse, decisionHandler: @escaping (WKNavigationResponsePolicy) -> Void) {
-		print("\t navigationResponse: \(navigationResponse)")
 		decisionHandler(.allow)
 	}
 	
 	public func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation) {
-		navigations.insert(navigation)
+		context.navigations.insert(navigation)
 	}
 	
 	public func webView(_ webView: WKWebView, didReceiveServerRedirectForProvisionalNavigation navigation: WKNavigation) {
 		//TODO: Test this
-		
-		print("\(#function) %: \(webView.estimatedProgress)")
-		print("\t navigation: \(navigation)")
-		print("\n\n")
 	}
 	
 	public func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation, withError error: Error) {
-		navigations.remove(navigation)
+		context.navigations.remove(navigation)
 	}
 	
 	public func webView(_ webView: WKWebView, didCommit navigation: WKNavigation) {
@@ -214,28 +203,17 @@ public class AutoWebkitController: NSObject, WKNavigationDelegate, WKUIDelegate,
 	}
 	
 	public func webView(_ webView: WKWebView, didFinish navigation: WKNavigation) {
-		navigations.remove(navigation)
+		context.navigations.remove(navigation)
 		processNextStepIfPossible()
 	}
 	
 	public func webView(_ webView: WKWebView, didFail navigation: WKNavigation, withError error: Error) {
-		navigations.remove(navigation)
+		context.navigations.remove(navigation)
 		processNextStepIfPossible()
 	}
 	
 	// MARK: WKUIDelegate Methods
-	
-	public func webView(_ webView: WKWebView, createWebViewWith configuration: WKWebViewConfiguration, for navigationAction: WKNavigationAction, windowFeatures: WKWindowFeatures) -> WKWebView? {
-		print("\(#function) %: \(webView.estimatedProgress)")
-		print("\n\n")
-		return nil
-	}
-	
-	public func webViewDidClose(_ webView: WKWebView) {
-		print("\(#function) %: \(webView.estimatedProgress)")
-		print("\n\n")
-	}
-	
+
 	public func webView(_ webView: WKWebView, runJavaScriptAlertPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping () -> Void) {
 		completionHandler()
 	}
@@ -260,7 +238,7 @@ public class AutoWebkitController: NSObject, WKNavigationDelegate, WKUIDelegate,
 	// MARK: WKScriptMessageHandler
 	
 	public func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
-		hasLoaded = true
+		context.hasLoaded = true
 		processNextStepIfPossible()
 	}
 	

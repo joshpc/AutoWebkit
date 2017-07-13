@@ -7,7 +7,27 @@
 //
 
 import XCTest
+import WebKit
 @testable import AutoWebkit
+
+class MockNextStepAction: Scriptable {
+	let expectation: XCTestExpectation
+	
+	init(expectation: XCTestExpectation) {
+		self.expectation = expectation
+	}
+	
+	func performAction(with webView: WKWebView, context: ScriptContext, completion: @escaping ScriptableCompletionHandler) {
+		completion(context, nil, [ WaitAction.waitUntilLoaded { (context, scriptReturn) in
+			self.expectation.fulfill()
+			scriptReturn(context, nil)
+		}])
+	}
+	
+	var requiresLoaded: Bool {
+		return false
+	}
+}
 
 class MockAutoWebkitControllerDelegate: NSObject, AutoWebkitControllerDelegate {
 	private let expectation: XCTestExpectation
@@ -44,6 +64,7 @@ class AutoWebkitControllerTests: XCTestCase {
 	var mockDelegate: MockAutoWebkitControllerDelegate!
 	var controller: AutoWebkitController!
 	var completedExpectation: XCTestExpectation!
+	var context: ScriptContext!
 	
 	override func setUp() {
 		super.setUp()
@@ -51,6 +72,7 @@ class AutoWebkitControllerTests: XCTestCase {
 		completedExpectation = XCTestExpectation()
 		controller = AutoWebkitController()
 		mockDelegate = MockAutoWebkitControllerDelegate(expectation: completedExpectation)
+		context = ScriptContext()
 		controller.delegate = mockDelegate
 	}
 	
@@ -61,7 +83,7 @@ class AutoWebkitControllerTests: XCTestCase {
 			DebugAction.printMessage(message: "banana")
 		]
 		
-		controller.execute(script: AutomationScript(steps: steps))
+		controller.execute(script: AutomationScript(steps: steps), with: context)
 		XCTAssertEqual(.completed, XCTWaiter.wait(for: [completedExpectation], timeout: 1.0))
 		
 		XCTAssertEqual(1, mockDelegate.willBeginScriptCount)
@@ -75,20 +97,20 @@ class AutoWebkitControllerTests: XCTestCase {
 			DebugAction.printMessage(message: "banana"),
 			DebugAction.printMessage(message: "dinosaur")
 		]
-		controller.execute(script: AutomationScript(steps: steps))
+		controller.execute(script: AutomationScript(steps: steps), with: context)
 		XCTAssertEqual(.completed, XCTWaiter.wait(for: [completedExpectation], timeout: 1.0))
 		
 		XCTAssertEqual(mockDelegate.willExecuteCallCount, mockDelegate.didCompleteCallCount)
 		XCTAssertEqual(2, mockDelegate.willExecuteCallCount)
-		XCTAssertEqual(true, controller.isFinished)
+		XCTAssertTrue(controller.isFinished)
 	}
 	
 	func testEmptyScript() {
 		let steps: [Scriptable] = []
 		
-		controller.execute(script: AutomationScript(steps: steps))
+		controller.execute(script: AutomationScript(steps: steps), with: context)
 		
-		XCTAssertEqual(true, controller.isFinished)
+		XCTAssertTrue(controller.isFinished)
 		XCTAssertEqual(mockDelegate.willExecuteCallCount, mockDelegate.didCompleteCallCount)
 		XCTAssertEqual(0, mockDelegate.willExecuteCallCount)
 	}
@@ -139,27 +161,30 @@ class AutoWebkitControllerTests: XCTestCase {
 	
 	func testContextIsPassedBetweenElements() {
 		let loadedHtml = "<html><head></head><body><form><input type=\"text\" id=\"banana\"></form></body></html>"
+		context.environment["should_not_change"] = "right"
 		
-		var finalContext: [String : String] = [:]
+		var finalContext: ScriptContext!
 		let steps: [Scriptable] = [
 			LoadAction.loadHtml(html: loadedHtml, baseURL: nil),
 			DomAction.getHtmlByElement(selector: "input[id='banana']") { (html, context, error, completion) in
 				var newContext = context
-				newContext["not there"] = "fake value"
+				newContext.environment["not there"] = "fake value"
 				completion(newContext, error)
 			},
 			DomAction.getHtmlByElement(selector: "input[id='banana']") { (html, context, error, completion) in
 				//Drop the previous value
-				completion([:], error)
-			},
-			DomAction.getHtmlByElement(selector: "input[id='banana']") { (html, context, error, completion) in
 				var newContext = context
-				newContext["banana"] = "apple"
+				newContext.environment.removeAll()
 				completion(newContext, error)
 			},
 			DomAction.getHtmlByElement(selector: "input[id='banana']") { (html, context, error, completion) in
 				var newContext = context
-				newContext["dinosaur"] = "alive"
+				newContext.environment["banana"] = "apple"
+				completion(newContext, error)
+			},
+			DomAction.getHtmlByElement(selector: "input[id='banana']") { (html, context, error, completion) in
+				var newContext = context
+				newContext.environment["dinosaur"] = "alive"
 				completion(newContext, error)
 			},
 			DomAction.getHtmlByElement(selector: "input[id='banana']") { (html, context, error, completion) in
@@ -168,10 +193,26 @@ class AutoWebkitControllerTests: XCTestCase {
 			},
 		]
 		
-		controller.execute(script: AutomationScript(steps: steps))
+		controller.execute(script: AutomationScript(steps: steps), with: context)
 		XCTAssertEqual(.completed, XCTWaiter.wait(for: [completedExpectation], timeout: 3.0))
-		XCTAssertEqual("apple", finalContext["banana"])
-		XCTAssertEqual("alive", finalContext["dinosaur"])
-		XCTAssertNil(finalContext["not there"])
+		XCTAssertEqual("apple", finalContext.environment["banana"])
+		XCTAssertEqual("alive", finalContext.environment["dinosaur"])
+		XCTAssertNil(finalContext.environment["not there"])
+		XCTAssertEqual("right", context.environment["should_not_change"])
+	}
+	
+	func testIfNextStepsAreReturnedTheyreAddedToTheScript() {
+		let nextStepExpectation = XCTestExpectation()
+		let lastStepExpectation = XCTestExpectation()
+		let steps: [Scriptable] = [
+			DebugAction.printMessage(message: "A"),
+			MockNextStepAction(expectation: nextStepExpectation),
+			DebugAction.printMessage(message: "C"),
+			MockNextStepAction(expectation: lastStepExpectation),
+		]
+		
+		context.hasLoaded = true
+		controller.execute(script: AutomationScript(steps: steps), with: context)
+		XCTAssertEqual(.completed, XCTWaiter.wait(for: [completedExpectation, nextStepExpectation, lastStepExpectation], timeout: 1.0))
 	}
 }
