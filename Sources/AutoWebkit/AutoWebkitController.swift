@@ -51,7 +51,7 @@ public class AutoWebkitController: NSObject, WKNavigationDelegate, WKUIDelegate,
 	}
 	
 	public var isFinished: Bool {
-		return stepIndex + 1 >= steps.count ?? 0
+		return stepIndex + 1 >= steps.count
 	}
 	
 	public weak var delegate: AutoWebkitControllerDelegate?
