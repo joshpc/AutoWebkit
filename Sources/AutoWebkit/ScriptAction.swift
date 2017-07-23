@@ -171,11 +171,10 @@ public enum DomAction: Scriptable {
 		case .setAttributeWithContext(let name, let contextKey, let selector):
 			updateAttribute(name, value: context.environment[contextKey], withTagMatching: selector, with: webView, context: context, completion: completion)
 		case .submit(let selector, let shouldBlock):
-			var newContext = context
 			if shouldBlock == true {
-				newContext.hasLoaded = false
+				context.hasLoaded = false
 			}
-			submitForm(matching: selector, with: webView, context: newContext, completion: completion)
+			submitForm(matching: selector, with: webView, context: context, completion: completion)
 		case .getHtml(let callback):
 			fetchHtml(with: webView, callback: callback, context: context, completion: completion)
 		case .getHtmlByElement(let selector, let callback):
@@ -193,7 +192,7 @@ public enum DomAction: Scriptable {
 	
 	private func fetchHtmlElement(with webView: WKWebView, selector: String, context: ScriptContext, callback: @escaping ScriptHtmlCallback, completion: @escaping ScriptableCompletionHandler) {
 		var script = JavascriptUtil.createSelector(selector)
-		script += "if (element != nil) {element.innerHTML.toString();} else { \"\".toString(); }"
+		script += "if (element != null) {element.innerHTML.toString();} else { \"\".toString(); }"
 		webView.safelyEvaluateJavaScript(script) { (result, error) in
 			callback(result as? String, context, error) { newContext, newError in
 				completion(newContext, newError, nil)
