@@ -42,7 +42,7 @@ public typealias ScriptReturn = (ScriptContext, Error?) -> Void
 /// the `AutomationScript`. This context allows us to track loading, navigations
 /// and the environment variables set by the script during execution.
 ///
-public struct ScriptContext {
+public class ScriptContext {
 	/// True if there is a step that is currently being executed.
 	public var isRunningStep = false
 	
@@ -184,7 +184,7 @@ public enum DomAction: Scriptable {
 	}
 	
 	private func fetchHtml(with webView: WKWebView, callback: @escaping ScriptHtmlCallback, context: ScriptContext, completion: @escaping ScriptableCompletionHandler) {
-		webView.evaluateJavaScript("document.documentElement.outerHTML.toString()", completionHandler: { (html: Any?, error: Error?) in
+		webView.evaluateJavaScript("document.documentElement.outerHTML.toString();", completionHandler: { (html: Any?, error: Error?) in
 			callback(html as? String, context, error) { newContext, newError in
 				completion(newContext, newError, nil)
 			}
@@ -193,7 +193,7 @@ public enum DomAction: Scriptable {
 	
 	private func fetchHtmlElement(with webView: WKWebView, selector: String, context: ScriptContext, callback: @escaping ScriptHtmlCallback, completion: @escaping ScriptableCompletionHandler) {
 		var script = JavascriptUtil.createSelector(selector)
-		script += "element.innerHTML.toString();"
+		script += "if (element != nil) {element.innerHTML.toString();} else { \"\".toString(); }"
 		webView.safelyEvaluateJavaScript(script) { (result, error) in
 			callback(result as? String, context, error) { newContext, newError in
 				completion(newContext, newError, nil)

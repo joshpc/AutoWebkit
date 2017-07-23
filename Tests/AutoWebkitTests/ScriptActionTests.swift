@@ -163,7 +163,7 @@ class ScriptActionTests: XCTestCase {
 		}
 		
 		XCTAssertEqual(.completed, XCTWaiter.wait(for: [completedExpectation], timeout: 1.0))
-		XCTAssertEqual("document.documentElement.outerHTML.toString()", webView.attemptedJavascript)
+		XCTAssertEqual("document.documentElement.outerHTML.toString();", webView.attemptedJavascript)
 	}
 	
 	func testGetHtmlElementAction() {
@@ -177,7 +177,7 @@ class ScriptActionTests: XCTestCase {
 		}
 		
 		XCTAssertEqual(.completed, XCTWaiter.wait(for: [completedExpectation], timeout: 1.0))
-		XCTAssertEqual("{ var element = document.querySelector(\"form[name=\"banana\"]\");element.innerHTML.toString(); }", webView.attemptedJavascript)
+		XCTAssertEqual("{ var element = document.querySelector(\"form[name=\"banana\"]\");if (element != nil) {element.innerHTML.toString();} else { \"\".toString(); } }", webView.attemptedJavascript)
 	}
 	
 	// MARK: WaitActions

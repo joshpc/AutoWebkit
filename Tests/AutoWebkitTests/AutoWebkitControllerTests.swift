@@ -161,31 +161,26 @@ class AutoWebkitControllerTests: XCTestCase {
 	
 	func testContextIsPassedBetweenElements() {
 		let loadedHtml = "<html><head></head><body><form><input type=\"text\" id=\"banana\"></form></body></html>"
-		context.environment["should_not_change"] = "right"
+		context.environment["should_change_since_context_is_shared"] = "right"
 		
 		var finalContext: ScriptContext!
 		let steps: [Scriptable] = [
 			LoadAction.loadHtml(html: loadedHtml, baseURL: nil),
 			DomAction.getHtmlByElement(selector: "input[id='banana']") { (html, context, error, completion) in
-				var newContext = context
-				newContext.environment["not there"] = "fake value"
-				completion(newContext, error)
+				context.environment["not there"] = "fake value"
+				completion(context, error)
 			},
 			DomAction.getHtmlByElement(selector: "input[id='banana']") { (html, context, error, completion) in
-				//Drop the previous value
-				var newContext = context
-				newContext.environment.removeAll()
-				completion(newContext, error)
+				context.environment.removeAll()
+				completion(context, error)
 			},
 			DomAction.getHtmlByElement(selector: "input[id='banana']") { (html, context, error, completion) in
-				var newContext = context
-				newContext.environment["banana"] = "apple"
-				completion(newContext, error)
+				context.environment["banana"] = "apple"
+				completion(context, error)
 			},
 			DomAction.getHtmlByElement(selector: "input[id='banana']") { (html, context, error, completion) in
-				var newContext = context
-				newContext.environment["dinosaur"] = "alive"
-				completion(newContext, error)
+				context.environment["dinosaur"] = "alive"
+				completion(context, error)
 			},
 			DomAction.getHtmlByElement(selector: "input[id='banana']") { (html, context, error, completion) in
 				finalContext = context
@@ -198,7 +193,7 @@ class AutoWebkitControllerTests: XCTestCase {
 		XCTAssertEqual("apple", finalContext.environment["banana"])
 		XCTAssertEqual("alive", finalContext.environment["dinosaur"])
 		XCTAssertNil(finalContext.environment["not there"])
-		XCTAssertEqual("right", context.environment["should_not_change"])
+		XCTAssertNil(context.environment["should_change_since_context_is_shared"])
 	}
 	
 	func testIfNextStepsAreReturnedTheyreAddedToTheScript() {

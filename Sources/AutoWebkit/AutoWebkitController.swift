@@ -64,6 +64,7 @@ public class AutoWebkitController: NSObject, WKNavigationDelegate, WKUIDelegate,
 		
 		super.init()
 		
+		self.webView.configuration.suppressesIncrementalRendering = true
 		self.webView.configuration.userContentController.add(self, name: "bridge")
 		self.webView.uiDelegate = self
 		self.webView.navigationDelegate = self
@@ -191,7 +192,7 @@ public class AutoWebkitController: NSObject, WKNavigationDelegate, WKUIDelegate,
 	}
 	
 	public func webView(_ webView: WKWebView, didReceiveServerRedirectForProvisionalNavigation navigation: WKNavigation) {
-		//TODO: Test this
+		context.navigations.insert(navigation)
 	}
 	
 	public func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation, withError error: Error) {
