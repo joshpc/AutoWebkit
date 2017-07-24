@@ -180,6 +180,22 @@ class ScriptActionTests: XCTestCase {
 		XCTAssertEqual("{ var element = document.querySelector(\"form[name=\"banana\"]\");if (element != null) { element.innerHTML.toString(); } }", webView.attemptedJavascript)
 	}
 	
+	// MARK: JavascriptActions
+	
+	func testEvaluateJavascriptAction() {
+		let action = JavascriptAction.evaluateJavascript(script: "alert('banana');") { html, context, error, completion in
+			completion(context, error)
+		}
+		
+		action.performAction(with: webView, context: context) { (context, error, nextSteps) in
+			XCTAssertNil(nextSteps)
+			self.completedExpectation.fulfill()
+		}
+		
+		XCTAssertEqual(.completed, XCTWaiter.wait(for: [completedExpectation], timeout: 1.0))
+		XCTAssertEqual("alert('banana');", webView.attemptedJavascript)
+	}
+	
 	// MARK: WaitActions
 	
 	func testWaitAction() {

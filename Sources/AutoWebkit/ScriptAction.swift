@@ -248,6 +248,25 @@ public enum Branch: Scriptable {
 	}
 }
 
+public enum JavascriptAction: Scriptable {
+	case evaluateJavascript(script: String, callback: ScriptHtmlCallback)
+	
+	public var requiresLoaded: Bool {
+		return true
+	}
+	
+	public func performAction(with webView: WKWebView, context: ScriptContext, completion: @escaping ScriptableCompletionHandler) {
+		switch self {
+		case .evaluateJavascript(let script, let callback):
+			webView.evaluateJavaScript(script) { (result, error) in
+				callback(result as? String, context, error) { (newContext, newError) in
+					completion(newContext, newError, nil)
+				}
+			}
+		}
+	}
+}
+
 ///
 /// `DebugAction`s are not recommended for production use, and simply allow you to perform simple debug actions.
 ///
