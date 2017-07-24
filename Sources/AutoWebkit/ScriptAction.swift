@@ -192,7 +192,7 @@ public enum DomAction: Scriptable {
 	
 	private func fetchHtmlElement(with webView: WKWebView, selector: String, context: ScriptContext, callback: @escaping ScriptHtmlCallback, completion: @escaping ScriptableCompletionHandler) {
 		var script = JavascriptUtil.createSelector(selector)
-		script += "if (element != null) {element.innerHTML.toString();} else { \"\".toString(); }"
+		script += "if (element != null) { element.innerHTML.toString(); }"
 		webView.safelyEvaluateJavaScript(script) { (result, error) in
 			callback(result as? String, context, error) { newContext, newError in
 				completion(newContext, newError, nil)
