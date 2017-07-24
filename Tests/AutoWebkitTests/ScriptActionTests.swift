@@ -166,6 +166,21 @@ class ScriptActionTests: XCTestCase {
 		XCTAssertEqual("document.documentElement.outerHTML.toString();", webView.attemptedJavascript)
 	}
 	
+	func testGetIFrameHtmlAction() {
+		let action = DomAction.getIFrameHtml(iFrameSelector: "iframe[id='banana']") { html, context, error, completion in
+			completion(context, error)
+		}
+		
+		action.performAction(with: webView, context: context) { (context, error, nextSteps) in
+			XCTAssertNil(nextSteps)
+			self.completedExpectation.fulfill()
+		}
+		
+		XCTAssertEqual(.completed, XCTWaiter.wait(for: [completedExpectation], timeout: 1.0))
+		XCTAssertEqual("var element = document.querySelector(\"iframe[id='banana']\");element.contentDocument.documentElement.outerHTML.toString();", webView.attemptedJavascript)
+		
+	}
+	
 	func testGetHtmlElementAction() {
 		let action = DomAction.getHtmlByElement(selector: "form[name=\"banana\"]") { html, context, error, completion in
 			completion(context, error)

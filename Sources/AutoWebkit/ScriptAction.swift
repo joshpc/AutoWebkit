@@ -158,6 +158,7 @@ public enum DomAction: Scriptable {
 	case setAttributeWithContext(name: String, contextKey: String, selector: String)
 	case submit(selector: String, shouldBlock: Bool)
 	case getHtml(callback: ScriptHtmlCallback)
+	case getIFrameHtml(iFrameSelector: String, callback: ScriptHtmlCallback)
 	case getHtmlByElement(selector: String, callback: ScriptHtmlCallback)
 	
 	public var requiresLoaded: Bool {
@@ -177,6 +178,8 @@ public enum DomAction: Scriptable {
 			submitForm(matching: selector, with: webView, context: context, completion: completion)
 		case .getHtml(let callback):
 			fetchHtml(with: webView, callback: callback, context: context, completion: completion)
+		case .getIFrameHtml(let selector, let callback):
+			fetchIFrameHtml(with: webView, selector: selector, callback: callback, context: context, completion: completion)
 		case .getHtmlByElement(let selector, let callback):
 			fetchHtmlElement(with: webView, selector: selector, context: context, callback: callback, completion: completion)
 		}
@@ -184,6 +187,16 @@ public enum DomAction: Scriptable {
 	
 	private func fetchHtml(with webView: WKWebView, callback: @escaping ScriptHtmlCallback, context: ScriptContext, completion: @escaping ScriptableCompletionHandler) {
 		webView.evaluateJavaScript("document.documentElement.outerHTML.toString();", completionHandler: { (html: Any?, error: Error?) in
+			callback(html as? String, context, error) { newContext, newError in
+				completion(newContext, newError, nil)
+			}
+		})
+	}
+	
+	private func fetchIFrameHtml(with webView: WKWebView, selector: String, callback: @escaping ScriptHtmlCallback, context: ScriptContext, completion: @escaping ScriptableCompletionHandler) {
+		var script = JavascriptUtil.createSelector(selector)
+		script += "element.contentDocument.documentElement.outerHTML.toString();"
+		webView.evaluateJavaScript(script, completionHandler: { (html: Any?, error: Error?) in
 			callback(html as? String, context, error) { newContext, newError in
 				completion(newContext, newError, nil)
 			}
