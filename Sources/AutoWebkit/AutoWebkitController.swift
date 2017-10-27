@@ -98,7 +98,7 @@ public class AutoWebkitController: NSObject, WKNavigationDelegate, WKUIDelegate,
 		guard nextStepIndex < steps.count else { return }
 		
 		let step = steps[nextStepIndex]
-		guard step.requiresLoaded == false || (step.requiresLoaded && context.hasLoaded) else { return }
+		guard step.requiresLoaded == false || (step.requiresLoaded && context.hasLoaded && isLoading == false) else { return }
 		
 		process(step: step, at: nextStepIndex)
 	}
